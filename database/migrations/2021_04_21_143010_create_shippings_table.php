@@ -18,7 +18,8 @@ class CreateShippingsTable extends Migration
             $table->string('name');
             $table->string('address');
             $table->string('tel');
-            $table->timestamps();
+            $table->timestamp('created_at');
+            $table->softDeletes();
         });
     }
 
