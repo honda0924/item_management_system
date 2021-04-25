@@ -17,6 +17,23 @@
                     {{ __('You are logged in!') }}
                 </div>
             </div>
+            <div class="card">
+                <div class="card-header">メニュー</div>
+                <div class="card-body">
+                    <ul>
+                        <li>
+                            <a href="{{url('/items')}}">商品一覧</a>
+                        </li>
+                        <li>
+                            <a href="{{url('/item/create')}}">商品登録</a>
+                        </li>
+                        <li>
+                            <a href="/inquiry">お問い合わせ</a>
+                        </li>
+                    </ul>
+                    
+                </div>
+            </div>
         </div>
     </div>
 </div>
