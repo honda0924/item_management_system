@@ -19,4 +19,7 @@ class ItemsController extends Controller
     {
         return view('items/create');
     }
+    public function store(Request $request)
+    {
+    }
 }
