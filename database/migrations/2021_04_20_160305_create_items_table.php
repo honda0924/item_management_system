@@ -18,7 +18,6 @@ class CreateItemsTable extends Migration
             $table->string('product_name');
             $table->string('arrival_source');
             $table->string('manufacturer');
-            $table->integer('price');
             $table->timestamps();
         });
     }

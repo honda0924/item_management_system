@@ -18,27 +18,31 @@
     ?>  
   @endif
   <div class="w-50">
-    <form method="post" action="{{ url('/item/store') }}">
+    <form method="post" action="{{ url('/item/post') }}">
       @csrf
       <div class="form-group">
         <label for="product_name">商品名(必須)</label>
         <input id="product_name" class="form-control" type="text" name="product_name">
       </div>
       <div class="form-group">
-        <label for="product_name">入荷元</label>
-        <input id="product_name" class="form-control" type="text" name="product_name">
+        <label for="arrival_source">入荷元</label>
+        <input id="arrival_source" class="form-control" type="text" name="arrival_source">
       </div>
       <div class="form-group">
-        <label for="product_name">製造元</label>
-        <input id="product_name" class="form-control" type="text" name="product_name">
+        <label for="manufacturer">製造元</label>
+        <input id="manufacturer" class="form-control" type="text" name="manufacturer">
+      </div>
+      {{-- <div class="form-group">
+        <label for="price">金額</label>
+        <input id="price" class="form-control" type="text" name="price">
+      </div> --}}
+      <div class="form-group">
+        <label for="email">メールアドレス(必須)</label>
+        <input id="email" class="form-control" type="email" name="email">
       </div>
       <div class="form-group">
-        <label for="product_name">メールアドレス(必須)</label>
-        <input id="product_name" class="form-control" type="email" name="product_name">
-      </div>
-      <div class="form-group">
-        <label for="product_name">電話番号(ハイフン不要、必須)</label>
-        <input id="product_name" class="form-control" type="text" name="product_name">
+        <label for="tel">電話番号(ハイフン不要、必須)</label>
+        <input id="tel" class="form-control" type="text" name="tel">
       </div>
       <button type="submit" class="btn btn-primary">登録</button>
     </form>

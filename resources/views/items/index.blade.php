@@ -25,7 +25,7 @@
             <td>{{$item->arrival_source}}</td>
             <td>{{$item->manufacturer}}</td>
             <td>{{$item->created_at}}</td>
-            <td>{{$item->update_at}}</td>
+            <td>{{$item->updated_at}}</td>
           </tr>
         @endforeach
       </tbody>

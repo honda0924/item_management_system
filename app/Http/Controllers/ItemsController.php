@@ -12,13 +12,14 @@ class ItemsController extends Controller
     private $itemElements = ["product_name", "arrival_source", "manufacturer", "email", "tel"];
     private $validator = [
         "product_name" => "required",
+        "arrival_source" => "nullable",
+        "manufacturer" => "nullable",
         "email" => "required|string",
         "tel" => "required|integer",
     ];
 
     public function index()
     {
-        // $items = Item::all();
         $items = Item::paginate(5);
 
         return view('items/index', ['items' => $items]);
@@ -28,28 +29,50 @@ class ItemsController extends Controller
     {
         return view('items/create');
     }
-    public function store(Request $request)
+    public function post(Request $request)
     {
         $input = $request->only($this->itemElements);
 
-        $validator = Validator::make($input, $this->validator);
+        $validator = validator($this->validator);
         if ($validator->fails()) {
-            return redirect()->action("ItemsController@create")
-            ->withInput()
-            ->withErrors($validator)
+            return redirect('item/create')
+                ->withInput()
+                ->withErrors($validator);
         }
 
         $request->session()->put("form_input", $input);
 
-        return redirect()->action("ItemsController@confirm");
+        return redirect('item/confirm');
     }
-    public function confirm
+    public function confirm(Request $request)
     {
         $input = $request->session()->get("form_input");
 
-        if(!$input){
-            return redirect()->action("ItemsController@create");
+        if (!$input) {
+            return redirect('item/create');
         }
-        return view("items/confirm", ["input"=>$input]);
+
+        return view('items/confirm', ["input" => $input]);
+    }
+    public function send(Request $request)
+    {
+        $input = $request->session()->get('form_input');
+
+        if ($request->has('back')) {
+            return redirect('item/create')
+                ->withInput($input);
+        }
+
+        if (!$input) {
+            return redirect('items/create');
+        }
+        // register operation
+
+        $request->session()->forget('form_input');
+        return redirect('item/complete');
+    }
+    public function complete()
+    {
+        return view('items/complete');
     }
 }
