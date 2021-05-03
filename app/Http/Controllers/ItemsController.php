@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Models\Item;
-
+use Illuminate\Support\Facades\Auth;
 use Validator;
 
 class ItemsController extends Controller
@@ -67,6 +68,29 @@ class ItemsController extends Controller
             return redirect('items/create');
         }
         // register operation
+
+        $reg_info = now() . 'に' . $input['email'] . 'が商品追加を実施';
+        DB::transaction(function () use ($input, $reg_info) {
+            DB::table('items')->insert(
+                [
+                    'product_name' => $input["product_name"],
+                    'arrival_source' => $input["arrival_source"],
+                    'manufacturer' => $input["manufacturer"],
+                    'created_at' => now(),
+                    'updated_at' => now(),
+
+                ]
+            );
+            DB::table('logs')->insert(
+                [
+                    'email' => $input["email"],
+                    'tel' => $input["tel"],
+                    'information' => $reg_info,
+                ]
+            );
+        });
+
+
 
         $request->session()->forget('form_input');
         return redirect('item/complete');
