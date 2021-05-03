@@ -5,19 +5,12 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Item;
-use Illuminate\Support\Facades\Auth;
 use Validator;
 
 class ItemsController extends Controller
 {
     private $itemElements = ["product_name", "arrival_source", "manufacturer", "email", "tel"];
-    private $validator = [
-        "product_name" => "required",
-        "arrival_source" => "nullable",
-        "manufacturer" => "nullable",
-        "email" => "required|string",
-        "tel" => "required|integer",
-    ];
+
 
     public function index()
     {
@@ -33,14 +26,15 @@ class ItemsController extends Controller
     public function post(Request $request)
     {
         $input = $request->only($this->itemElements);
+        $validator = [
+            "product_name" => "required|string",
+            "arrival_source" => "nullable|string",
+            "manufacturer" => "nullable|string",
+            "email" => "required|string|email:strict,dns",
+            "tel" => "required|integer",
+        ];
 
-        $validator = validator($this->validator);
-        if ($validator->fails()) {
-            return redirect('item/create')
-                ->withInput()
-                ->withErrors($validator);
-        }
-
+        $request->validate($validator);
         $request->session()->put("form_input", $input);
 
         return redirect('item/confirm');
@@ -78,7 +72,6 @@ class ItemsController extends Controller
                     'manufacturer' => $input["manufacturer"],
                     'created_at' => now(),
                     'updated_at' => now(),
-
                 ]
             );
             DB::table('logs')->insert(
