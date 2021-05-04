@@ -22,15 +22,15 @@
       @csrf
       <div class="form-group">
         <label for="product_name">商品名(必須)</label>
-        <input id="product_name" class="form-control" type="text" name="product_name">
+        <input id="product_name" class="form-control" type="text" name="product_name" value="{{ old('product_name')}}">
       </div>
       <div class="form-group">
         <label for="arrival_source">入荷元</label>
-        <input id="arrival_source" class="form-control" type="text" name="arrival_source">
+        <input id="arrival_source" class="form-control" type="text" name="arrival_source" value="{{ old('arrival_source')}}">
       </div>
       <div class="form-group">
         <label for="manufacturer">製造元</label>
-        <input id="manufacturer" class="form-control" type="text" name="manufacturer">
+        <input id="manufacturer" class="form-control" type="text" name="manufacturer" value="{{ old('manufacturer')}}">
       </div>
       {{-- <div class="form-group">
         <label for="price">金額</label>
@@ -38,11 +38,11 @@
       </div> --}}
       <div class="form-group">
         <label for="email">メールアドレス(必須)</label>
-        <input id="email" class="form-control" type="email" name="email">
+        <input id="email" class="form-control" type="email" name="email" value="{{ old('email')}}">
       </div>
       <div class="form-group">
         <label for="tel">電話番号(ハイフン不要、必須)</label>
-        <input id="tel" class="form-control" type="text" name="tel">
+        <input id="tel" class="form-control" type="text" name="tel" value="{{ old('tel')}}">
       </div>
       <button type="submit" class="btn btn-primary">登録</button>
     </form>

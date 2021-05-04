@@ -31,7 +31,7 @@ class ItemsController extends Controller
             "arrival_source" => "nullable|string",
             "manufacturer" => "nullable|string",
             "email" => "required|string|email:strict,dns",
-            "tel" => "required|integer",
+            "tel" => "required|regex:/^[0-9\-]+$/i",
         ];
 
         $request->validate($validator);
