@@ -54,7 +54,8 @@ class InquiryController extends Controller
         }
         // register operation
         // Log::debug('input:' . print_r($input));
-        Mail::to($input["email"])->send(new InquiryMail($input));
+        Mail::to($input["email"])->cc(config('mail.from.address'))->send(new InquiryMail($input));
+
 
 
 
