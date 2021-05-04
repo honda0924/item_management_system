@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\InquiryMail;
 
 class InquiryController extends Controller
 {
@@ -50,7 +53,8 @@ class InquiryController extends Controller
             return redirect('inquiry');
         }
         // register operation
-
+        // Log::debug('input:' . print_r($input));
+        Mail::to($input["email"])->send(new InquiryMail($input));
 
 
 
