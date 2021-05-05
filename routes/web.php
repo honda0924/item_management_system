@@ -27,6 +27,7 @@ Route::post('/item/post', [App\Http\Controllers\ItemsController::class, 'post'])
 Route::get('/item/confirm', [App\Http\Controllers\ItemsController::class, 'confirm'])->name("item.confirm");
 Route::post('/item/send', [App\Http\Controllers\ItemsController::class, 'send'])->name("item.send");
 Route::get('/item/complete', [App\Http\Controllers\ItemsController::class, 'complete'])->name("item.complete");
+Route::get('item/delete/{id}', [App\Http\Controllers\ItemsController::class, 'delete'])->name("item.delete");
 
 Route::get('/inquiry', [App\Http\Controllers\InquiryController::class, 'index'])->name('inquiry');
 Route::post('/inquiry/post', [App\Http\Controllers\InquiryController::class, 'post'])->name("inquiry.post");
