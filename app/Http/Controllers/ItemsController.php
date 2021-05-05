@@ -92,4 +92,9 @@ class ItemsController extends Controller
     {
         return view('items/complete');
     }
+    public function delete($id)
+    {
+        Item::find($id)->delete();
+        return redirect('items');
+    }
 }
