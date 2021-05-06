@@ -29,6 +29,7 @@
             <td class="updated_at">{{$item->updated_at}}</td>
             <td class="d-flex">
               <button type="button" class="item_delete_btn" data-toggle="modal" data-target="#modal_delete" data-name="{{$item->product_name}}" data-url="item/delete/{{$item->id}}">削除</button>
+              <button type="button" onclick="location.href='item/edit/{{$item->id}}'">削除</button>
             </td>
           </tr>
         @endforeach

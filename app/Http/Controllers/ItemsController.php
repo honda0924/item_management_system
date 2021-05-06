@@ -97,4 +97,9 @@ class ItemsController extends Controller
         Item::find($id)->delete();
         return redirect('items');
     }
+    public function edit($id)
+    {
+        $item = Item::find($id);
+        return view('items/edit')->with('item', $item);
+    }
 }
