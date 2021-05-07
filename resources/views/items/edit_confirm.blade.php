@@ -5,8 +5,12 @@
   <h6>以下の内容で更新します。よろしいですか？</h6>
 
   <div class="w-50">
-    <form method="post" action="{{ url('/item/update/$input["id"]') }}">
+    <form method="post" action="{{ route('item.update', $input["id"]) }}">
       @csrf
+      <div class="form-group">
+        <label>id</label>
+        <div>{{ $input["id"] }}</div>
+      </div>      
       <div class="form-group">
         <label>商品名</label>
         <div>{{ $input["product_name"] }}</div>

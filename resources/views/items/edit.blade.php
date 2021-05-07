@@ -14,12 +14,12 @@
       $product_name = old('product_name');
       $arrival_source = old('arrival_source');
       $manufacturer = old('manufacturer');
-      $price = old('price');
     ?>  
   @endif
   <div class="w-50">
-    <form method="post" action="{{ route('items.edit_confirm', $item->id) }}">
+    <form method="post" action="{{ route('item.edit_post') }}">
       @csrf
+      <input type="hidden" name="id" value="{{ old('id') ?? $item->id}}">
       <div class="form-group">
         <label for="product_name">商品名(必須)</label>
         <input id="product_name" class="form-control" type="text" name="product_name" value="{{ old('product_name') ?? $item->product_name}}">

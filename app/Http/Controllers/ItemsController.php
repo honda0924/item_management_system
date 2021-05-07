@@ -10,7 +10,7 @@ use Validator;
 class ItemsController extends Controller
 {
     private $itemElements = ["product_name", "arrival_source", "manufacturer", "email", "tel"];
-
+    private $itemEditElements = ["id", "product_name", "arrival_source", "manufacturer"];
 
     public function index()
     {
@@ -101,5 +101,50 @@ class ItemsController extends Controller
     {
         $item = Item::find($id);
         return view('items/edit')->with('item', $item);
+    }
+    public function edit_post(Request $request)
+    {
+        $input = $request->only($this->itemEditElements);
+        $validator = [
+            "id" => "required|integer",
+            "product_name" => "required|string",
+            "arrival_source" => "nullable|string",
+            "manufacturer" => "nullable|string",
+        ];
+
+        $request->validate($validator);
+        $request->session()->put("edit_input", $input);
+
+        return view('items/edit_confirm', ["input" => $input]);
+    }
+    public function update(Request $request)
+    {
+        $input = $request->session()->get('edit_input');
+
+        if ($request->has('back')) {
+            return redirect('item/edit/{{ $input["id"] }}')
+                ->withInput($input);
+        }
+
+        if (!$input) {
+            return redirect('items/create/{{ $input["id"] }}');
+        }
+        // register operation
+        $item = Item::find($input["id"]);
+
+        $item->product_name = $input["product_name"];
+        $item->arrival_source = $input["arrival_source"];
+        $item->manufacturer = $input["manufacturer"];
+        $item->updated_at = now();
+        $item->save();
+
+
+
+        $request->session()->forget('edit_input');
+        return redirect('item/edit_complete');
+    }
+    public function edit_complete()
+    {
+        return view('items/edit_complete');
     }
 }
