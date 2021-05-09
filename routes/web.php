@@ -34,6 +34,9 @@ Route::get('/item/edit_confirm', [App\Http\Controllers\ItemsController::class, '
 Route::post('/item/update', [App\Http\Controllers\ItemsController::class, 'update'])->name("item.update");
 Route::get('/item/edit_complete', [App\Http\Controllers\ItemsController::class, 'edit_complete'])->name("item.edit_complete");
 
+Route::get('/favorite/add/{id}', [App\Http\Controllers\FavoriteController::class, 'add'])->name("favorite.add");
+
+
 
 
 Route::get('/inquiry', [App\Http\Controllers\InquiryController::class, 'index'])->name('inquiry');
