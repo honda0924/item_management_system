@@ -15,7 +15,7 @@ class MypageController extends Controller
     {
         $user = User::find(Auth::user()["id"]);
         $logs = DB::table('logs')->get();
-        $favorites = DB::table('favorite')->where('user_id', Auth::user()["id"])->get();
+        $favorites = DB::table('items')->join('favorite', 'items.id', '=', 'favorite.product_id')->where('user_id', Auth::user()["id"])->get();
         return view('mypage/index')->with(['user' => $user, 'logs' => $logs, 'favorites' => $favorites]);
     }
 }

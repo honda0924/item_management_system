@@ -57,10 +57,10 @@
                   <tbody>
                     @foreach ($favorites as $favorite)
                       <tr>
-                        <th scope="row">{{$favorite->product_id}}</th>
-                        <td class="product_name">{{$favorite->item()->item_name}}</td>
-                        <td class="arrival_source">{{$favorite->item()->arrival_source}}</td>
-                        <td class="manufacturer">{{$favorite->item()->manufacturer}}</td>
+                        <th scope="row">{{$favorite->id}}</th>
+                        <td class="product_name">{{$favorite->product_name}}</td>
+                        <td class="arrival_source">{{$favorite->arrival_source}}</td>
+                        <td class="manufacturer">{{$favorite->manufacturer}}</td>
                       </tr>
                     @endforeach
                   </tbody>

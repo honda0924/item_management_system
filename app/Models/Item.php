@@ -10,9 +10,4 @@ class Item extends Model
 {
     use HasFactory;
     use SoftDeletes;
-
-    public function favorite()
-    {
-        return $this->hasMany(Favorite::class, 'product_id');
-    }
 }
