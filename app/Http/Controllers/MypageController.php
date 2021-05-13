@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Log;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class MypageController extends Controller
@@ -11,7 +13,9 @@ class MypageController extends Controller
     //
     public function index()
     {
+        $user = User::find(Auth::user()["id"]);
         $logs = DB::table('logs')->get();
-        return view('mypage/index', ['logs' => $logs]);
+        $favorites = DB::table('favorite')->where('user_id', Auth::user()["id"])->get();
+        return view('mypage/index')->with(['user' => $user, 'logs' => $logs, 'favorites' => $favorites]);
     }
 }

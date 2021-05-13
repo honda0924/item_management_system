@@ -8,6 +8,14 @@
     <div class="card-header">マイページ</div>
     <div class="card-body">
         <ul>
+          <li>
+            <h4>ユーザー情報</h4>
+            <div>{{$user["id"]}} </div>
+            <div>{{$user["login_id"]}} </div>
+            <div>{{$user["name"]}} </div>
+            <div>{{$user["email"]}} </div>
+
+          </li>
             <li>
               <h4>ログ一覧</h4>
               <div>
@@ -31,16 +39,33 @@
                     @endforeach
                   </tbody>
                 </table>
-            
-            
-            
               </div>
             </li>
+
             <li>
-                <a href="{{url('/item/create')}}">商品登録</a>
-            </li>
-            <li>
-                <a href="/inquiry">お問い合わせ</a>
+              <h4>お気に入り一覧</h4>
+              <div>
+                <table class="table col">
+                  <thead>
+                    <tr>
+                      <th scope="col">id</th>
+                      <th scope="col">商品名</th>
+                      <th scope="col">入荷元</th>
+                      <th scope="col">製造元</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @foreach ($favorites as $favorite)
+                      <tr>
+                        <th scope="row">{{$favorite->product_id}}</th>
+                        <td class="product_name">{{$favorite->item()->item_name}}</td>
+                        <td class="arrival_source">{{$favorite->item()->arrival_source}}</td>
+                        <td class="manufacturer">{{$favorite->item()->manufacturer}}</td>
+                      </tr>
+                    @endforeach
+                  </tbody>
+                </table>
+              </div>
             </li>
         </ul>
         
