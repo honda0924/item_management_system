@@ -15,6 +15,7 @@
           <th scope="col">製造元</th>
           <th scope="col">作成日</th>
           <th scope="col">更新日</th>
+          <th scope="col">お気に入り</th>
           <th scope="col">アクション</th>
         </tr>
       </thead>
@@ -27,10 +28,15 @@
             <td class="manufacturer">{{$item->manufacturer}}</td>
             <td class="created_at">{{$item->created_at}}</td>
             <td class="updated_at">{{$item->updated_at}}</td>
+            <td class="is_favorite">{{$item->is_favorite==1 ? '○' : '×'}}</td>
             <td class="d-flex">
               <button type="button" class="item_delete_btn mr-3" data-toggle="modal" data-target="#modal_delete" data-name="{{$item->product_name}}" data-url="item/delete/{{$item->id}}">削除</button>
               <button type="button" class="mr-3" onclick="location.href='item/edit/{{$item->id}}'">編集</button>
-              <button type="button" onclick="location.href='/favorite/add/{{$item->id}}'">お気に入り</button>
+              @if ($item->is_favorite==0)
+                <button type="button" onclick="location.href='/favorite/add/{{$item->id}}'">お気に入り追加</button>  
+              @else
+                <button type="button" onclick="location.href='/favorite/delete/{{$item->id}}'">お気に入り削除</button>
+              @endif
             </td>
           </tr>
         @endforeach
@@ -66,7 +72,7 @@
 
     </script>
     <div>
-      {{ $items->links() }}
+      {{-- {{ $items->links() }} --}}
     </div>
   </div>
 

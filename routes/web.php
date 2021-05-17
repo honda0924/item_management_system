@@ -36,6 +36,8 @@ Route::get('/item/edit_complete', [App\Http\Controllers\ItemsController::class, 
 
 Route::get('/mypage', [App\Http\Controllers\MypageController::class, 'index'])->name("mypage.index");
 Route::get('/favorite/add/{id}', [App\Http\Controllers\FavoriteController::class, 'add'])->name("favorite.add");
+Route::get('/favorite/delete/{id}', [App\Http\Controllers\FavoriteController::class, 'delete'])->name("favorite.delete");
+
 
 Route::post('/user/edit_post', [App\Http\Controllers\UsersController::class, 'edit_post'])->name("user.edit_post");
 Route::get('/user/edit_confirm', [App\Http\Controllers\UsersController::class, 'edit_confirm'])->name("user.edit_confirm");
