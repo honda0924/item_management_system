@@ -13,6 +13,7 @@
           <th scope="col">商品名</th>
           <th scope="col">入荷元</th>
           <th scope="col">製造元</th>
+          <th scope="col">単価</th>
           <th scope="col">作成日</th>
           <th scope="col">更新日</th>
           <th scope="col">お気に入り</th>
@@ -26,6 +27,7 @@
             <td class="product_name">{{$item->product_name}}</td>
             <td class="arrival_source">{{$item->arrival_source}}</td>
             <td class="manufacturer">{{$item->manufacturer}}</td>
+            <td class="manufacturer">{{$item->price}}</td>
             <td class="created_at">{{$item->created_at}}</td>
             <td class="updated_at">{{$item->updated_at}}</td>
             <td class="is_favorite">{{$item->is_favorite==1 ? '○' : '×'}}</td>
@@ -33,10 +35,12 @@
               <button type="button" class="item_delete_btn mr-3" data-toggle="modal" data-target="#modal_delete" data-name="{{$item->product_name}}" data-url="item/delete/{{$item->id}}">削除</button>
               <button type="button" class="mr-3" onclick="location.href='item/edit/{{$item->id}}'">編集</button>
               @if ($item->is_favorite==0)
-                <button type="button" onclick="location.href='/favorite/add/{{$item->id}}'">お気に入り追加</button>  
+                <button type="button" class="mr-3" onclick="location.href='/favorite/add/{{$item->id}}'">お気に入り追加</button>  
               @else
-                <button type="button" onclick="location.href='/favorite/delete/{{$item->id}}'">お気に入り削除</button>
+                <button type="button" class="mr-3" onclick="location.href='/favorite/delete/{{$item->id}}'">お気に入り削除</button>
               @endif
+              <input type="number" id="item_num" class="mr-3" name="item_num">
+              <button type="button" class="mr-3 add_cart">カートに追加</button>
             </td>
           </tr>
         @endforeach
@@ -65,9 +69,11 @@
           $('#item_delete_execute').on('click', function(){
             location.href = url;
           });
-
-          
+          $('#item_delete_execute').on('click', function(){
+            location.href = url;
+          });
         });
+
       }
 
     </script>
