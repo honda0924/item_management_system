@@ -48,6 +48,7 @@ Route::get('/password/change', [App\Http\Controllers\Auth\ChangePasswordControll
 Route::patch('/password/update', [App\Http\Controllers\Auth\ChangePasswordController::class, 'update'])->name("password.update");
 
 Route::post('/cart/add', [App\Http\Controllers\CartController::class, 'add'])->name("cart.add");
+Route::get('/cart/show/{id}', [App\Http\Controllers\CartController::class, 'show'])->name("cart.show");
 
 
 

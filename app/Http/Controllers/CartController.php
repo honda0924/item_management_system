@@ -10,6 +10,12 @@ class CartController extends Controller
 {
     private $cartElements = ["user_id", "product_id", "item_num"];
     //
+    public function show($user_id)
+    {
+        $carts = DB::table('cart')->join('items', 'cart.product_id', '=', 'items.id')->where('cart.user_id', $user_id)->get();
+        return view('cart/show', ["carts" => $carts]);
+    }
+
     public function add(Request $request)
     {
         $input = $request->only($this->cartElements);

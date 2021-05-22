@@ -1,7 +1,10 @@
 @extends('layouts.app')
 
 @section('content')
-  <h4>商品一覧</h4>
+  <div class="d-flex">
+    <h4>商品一覧</h4>
+    <button onclick="location.href='/cart/show/{{Auth::user()["id"]}}'">カートを見る</button>
+  </div>
   {{-- @foreach ($items as $item)
     <p>{{ $item->product_name }}</p>
   @endforeach --}}

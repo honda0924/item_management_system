@@ -24,7 +24,7 @@
         <div>{{ $input["manufacturer"] }}</div>
       </div>
       <div class="form-group">
-        <label>価格</label>
+        <label>単価</label>
         <div>{{ $input["price"] }}</div>
       </div>
 
