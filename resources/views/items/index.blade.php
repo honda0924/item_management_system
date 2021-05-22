@@ -5,6 +5,7 @@
   {{-- @foreach ($items as $item)
     <p>{{ $item->product_name }}</p>
   @endforeach --}}
+  <div id="err_info"></div>
   <div>
     <table class="table col">
       <thead>
@@ -14,8 +15,8 @@
           <th scope="col">入荷元</th>
           <th scope="col">製造元</th>
           <th scope="col">単価</th>
-          <th scope="col">作成日</th>
-          <th scope="col">更新日</th>
+          {{-- <th scope="col">作成日</th> --}}
+          {{-- <th scope="col">更新日</th> --}}
           <th scope="col">お気に入り</th>
           <th scope="col">アクション</th>
         </tr>
@@ -28,8 +29,8 @@
             <td class="arrival_source">{{$item->arrival_source}}</td>
             <td class="manufacturer">{{$item->manufacturer}}</td>
             <td class="manufacturer">{{$item->price}}</td>
-            <td class="created_at">{{$item->created_at}}</td>
-            <td class="updated_at">{{$item->updated_at}}</td>
+            {{-- <td class="created_at">{{$item->created_at}}</td> --}}
+            {{-- <td class="updated_at">{{$item->updated_at}}</td> --}}
             <td class="is_favorite">{{$item->is_favorite==1 ? '○' : '×'}}</td>
             <td class="d-flex">
               <button type="button" class="item_delete_btn mr-3" data-toggle="modal" data-target="#modal_delete" data-name="{{$item->product_name}}" data-url="item/delete/{{$item->id}}">削除</button>
@@ -39,8 +40,8 @@
               @else
                 <button type="button" class="mr-3" onclick="location.href='/favorite/delete/{{$item->id}}'">お気に入り削除</button>
               @endif
-              <input type="number" id="item_num" class="mr-3" name="item_num">
-              <button type="button" class="mr-3 add_cart">カートに追加</button>
+              <input type="number" class="mr-3 item_num" name="item_num" min="0">
+              <button type="button" data-id="{{$item->id}}" class="add_cart">カートに追加</button>
             </td>
           </tr>
         @endforeach
@@ -73,8 +74,32 @@
             location.href = url;
           });
         });
-
+        $(".add_cart").click(function(){
+          const target_num = $(this).parent().children(".item_num");
+          if (!target_num.val()){
+            target_num.val(1);
+          }
+          $.ajax({
+            headers: {
+              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            url: "/cart/add",
+            type: "POST",
+            data:{
+              'user_id': {{Auth::user()["id"]}},
+              'product_id': $(this).data('id'),
+              'item_num': target_num.val()
+            }
+          }).done(function (data) {
+            console.log(data);
+            $("#err_info").text(data);
+          }).fail(function(data){
+            $("#err_info").text(data);
+          })
+          
+        });
       }
+
 
     </script>
     <div>
