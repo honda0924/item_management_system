@@ -49,8 +49,8 @@ Route::patch('/password/update', [App\Http\Controllers\Auth\ChangePasswordContro
 
 Route::post('/cart/add', [App\Http\Controllers\CartController::class, 'add'])->name("cart.add");
 Route::get('/cart/show/{id}', [App\Http\Controllers\CartController::class, 'show'])->name("cart.show");
-
-
+Route::get('/cart/delete/{id}', [App\Http\Controllers\CartController::class, 'delete'])->name("cart.delete");
+Route::get('/cart/purchase', [App\Http\Controllers\CartController::class, 'purchase'])->name("cart.purchase");
 
 
 Route::get('/inquiry', [App\Http\Controllers\InquiryController::class, 'index'])->name('inquiry');
