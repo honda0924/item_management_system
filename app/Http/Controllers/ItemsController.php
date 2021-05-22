@@ -15,21 +15,12 @@ class ItemsController extends Controller
 
     public function index()
     {
-        // $items = Item::paginate(5);
-        $items = DB::select(
-            'select items.id as id, items.product_name as product_name, items.arrival_source as arrival_source, items.manufacturer as manufacturer,items.created_at as created_at,items.updated_at as updated_at, 
-            count(favorite.user_id=?) as is_favorite 
-            from items 
-            left join favorite
-            on items.id = favorite.product_id 
-            group by items.id',
-            [Auth::user()["id"]]
-        );
-        // $items = DB::table('items')
-        //     ->leftJoin('favorite', 'favorite.product_id', '=', 'items.id')
-        //     ->select('items.id as id', 'items.product_name as product_name', 'items.arrival_source as arrival_source', 'items.manufacturer as manufacturer', 'items.created_at as created_at', 'items.updated_at as updated_at', 'count(favorite.user_id={{ Auth::user()["id"] }})')
-        //     ->groupBy('items.id')
-        //     ->paginate(5);
+        $items = DB::table('items')
+            ->leftJoin('favorite', 'favorite.product_id', '=', 'items.id')
+            ->select(DB::raw('items.id as id, items.product_name as product_name, items.arrival_source as arrival_source, items.manufacturer as manufacturer, items.created_at as created_at, items.updated_at as updated_at, count(favorite.user_id=?) as is_favorite'))
+            ->setBindings([Auth::user()["id"]])
+            ->groupBy('items.id')
+            ->paginate(5);
 
         return view('items/index', ['items' => $items]);
     }

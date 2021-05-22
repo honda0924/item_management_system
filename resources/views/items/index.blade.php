@@ -72,7 +72,7 @@
 
     </script>
     <div>
-      {{-- {{ $items->links() }} --}}
+      {{ $items->links() }}
     </div>
   </div>
 
