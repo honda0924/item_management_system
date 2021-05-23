@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\DB;
 use App\Models\Cart;
+use App\Models\Item;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
@@ -43,7 +44,8 @@ class CartController extends Controller
                     'updated_at' => now(),
                 ]
             );
-            $resMsg = now() . 'に商品をカートに追加しました';
+            $target_item = Item::find($input["product_id"]);
+            $resMsg = now() . 'に' . $target_item['product_name'] . 'を' . $input["item_num"] . '個カートに追加しました';
             return Response($resMsg, Response::HTTP_OK);
         } catch (\Exception $e) {
             return Response($e, Response::HTTP_INTERNAL_SERVER_ERROR);

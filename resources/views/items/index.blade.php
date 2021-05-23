@@ -91,8 +91,8 @@
               'item_num': target_num.val()
             }
           }).done(function (data) {
-            console.log(data);
             $("#err_info").text(data);
+            target_num.val("");
           }).fail(function(data){
             $("#err_info").text(data);
           })
