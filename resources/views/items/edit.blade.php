@@ -32,6 +32,10 @@
         <label for="manufacturer">製造元</label>
         <input id="manufacturer" class="form-control" type="text" name="manufacturer" value="{{ old('manufacturer') ?? $item->manufacturer}}">
       </div>
+      <div class="form-group">
+        <label for="price">単価</label>
+        <input id="price" class="form-control" type="text" name="price" value="{{ old('price') ?? $item->price}}">
+      </div>
 
       <button type="submit" class="btn btn-primary">更新</button>
     </form>
