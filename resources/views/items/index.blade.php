@@ -73,9 +73,6 @@
           $('#item_delete_execute').on('click', function(){
             location.href = url;
           });
-          $('#item_delete_execute').on('click', function(){
-            location.href = url;
-          });
         });
         $(".add_cart").click(function(){
           const target_num = $(this).parent().children(".item_num");

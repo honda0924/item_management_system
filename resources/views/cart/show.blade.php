@@ -22,7 +22,7 @@
             <td class="price">{{$cart->price}}</td>
             <td class="amount" data-num={{$cart->item_num}} data-price={{$cart->price}}></td>
             <td class="d-flex">
-              <button type="button" class="cart_delete_btn mr-3" data-id="{{$cart->id}}" data-url="/cart/delete/{{$cart->id}}">削除</button>
+              <button type="button" class="cart_delete_btn mr-3" data-toggle="modal" data-target="#modal_delete" data-id="{{$cart->id}}" data-name="{{$cart->product_name}}" data-url="/cart/delete/{{$cart->id}}">削除</button>
             </td>
           </tr>
         @endforeach
@@ -37,6 +37,19 @@
           </tr>
       </tbody>
     </table>
+    <div class="modal" tabindex="-1" role="dialog" id="modal_delete">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-body">
+            <p>本当に<span id="cart_delete_candidate_name"></span>を削除してもよろしいですか？</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">キャンセル</button>
+            <button type="button" class="btn btn-danger" id="cart_delete_execute">削除</button>
+          </div>
+        </div>
+      </div>
+    </div>
     <script>
       window.onload = function(){
         let item_num_sum = 0;
@@ -56,22 +69,32 @@
           $(this).text(row_amount);
         });
         set_calc_total();
-        $(".cart_delete_btn").click(function () {
-          const target_id = $(this).data('id');
-          console.log(target_id);
-          const url = $(this).data('url');
-          $.ajax({
-            url: url,
-            type: "GET",
-          }).done(function (data) {
-            $("tr").filter(
-              function(){
-                return ($(this).data('item') === target_id);
-              }
-            ).remove();
-            set_calc_total();
+        $("#modal_delete").on('shown.bs.modal', function(event){
+          const button = $(event.relatedTarget);
+          const target_id = button.data('id');
+          const product_name = button.data('name');
+          const url = button.data('url');
+          $('#cart_delete_candidate_name').text(product_name);
+          $('#cart_delete_execute').on('click', function(){
+            // location.href = url;
+            $.ajax({
+              url: url,
+              type: "GET",
+            }).done(function (data) {
+              $("tr").filter(
+                function(){
+                  return ($(this).data('item') === target_id);
+                }
+              ) .remove();
+              // $(this).parent().parent().remove();
+              set_calc_total();
+              $("#modal_delete").modal('hide');
+             }).fail(function(data){
+               console.log(data);
+             });
           });
         });
+
       }
     </script>
 
