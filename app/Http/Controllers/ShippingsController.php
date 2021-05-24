@@ -77,4 +77,8 @@ class ShippingsController extends Controller
     {
         return view('shipping/edit_complete');
     }
+    public function create()
+    {
+        return view('shippings/create');
+    }
 }

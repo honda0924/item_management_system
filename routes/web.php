@@ -59,6 +59,8 @@ Route::post('/shipping/edit_post', [App\Http\Controllers\ShippingsController::cl
 Route::get('/shipping/edit_confirm', [App\Http\Controllers\ShippingsController::class, 'edit_confirm'])->name("shipping.edit_confirm");
 Route::post('/shipping/update', [App\Http\Controllers\ShippingsController::class, 'update'])->name("shipping.update");
 Route::get('/shipping/edit_complete', [App\Http\Controllers\ShippingsController::class, 'edit_complete'])->name("shipping.edit_complete");
+Route::get('/shipping/create', [App\Http\Controllers\ShippingsController::class, 'create'])->name("shipping.create");
+
 
 
 
