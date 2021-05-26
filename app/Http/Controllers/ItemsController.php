@@ -17,7 +17,7 @@ class ItemsController extends Controller
     {
         $items = DB::table('items')
             ->leftJoin('favorite', 'favorite.product_id', '=', 'items.id')
-            ->select(DB::raw('items.id as id, items.product_name as product_name, items.arrival_source as arrival_source, items.manufacturer as manufacturer, items.created_at as created_at, items.updated_at as updated_at, count(favorite.user_id=?) as is_favorite'))
+            ->select(DB::raw('items.id as id, items.product_name as product_name, items.arrival_source as arrival_source, items.manufacturer as manufacturer,items.price as price, items.created_at as created_at, items.updated_at as updated_at, count(favorite.user_id=?) as is_favorite'))
             ->setBindings([Auth::user()["id"]])
             ->groupBy('items.id')
             ->paginate(5);
