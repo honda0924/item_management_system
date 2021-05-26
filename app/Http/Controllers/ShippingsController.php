@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+
 use Illuminate\Support\Facades\DB;
 
 use App\Models\Shipping;
@@ -80,5 +82,32 @@ class ShippingsController extends Controller
     public function create()
     {
         return view('shippings/create');
+    }
+    public function add(Request $request)
+    {
+        $input = $request->only($this->shippingElements);
+        $validator = [
+            "name" => "required|string",
+            "address" => "required|string",
+            "tel" => "required|string",
+        ];
+
+        $request->validate($validator);
+
+        try {
+            //code...
+            DB::table('shippings')->insert(
+                [
+                    'name' => $input["name"],
+                    'address' => $input["address"],
+                    'tel' => $input["tel"],
+                    'created_at' => now(),
+                ]
+            );
+            $resMsg = now() . 'に' . $input['name'] . 'を出荷先に追加しました';
+            return Response($resMsg, Response::HTTP_OK);
+        } catch (\Exception $e) {
+            return Response($e, Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
     }
 }

@@ -60,6 +60,8 @@ Route::get('/shipping/edit_confirm', [App\Http\Controllers\ShippingsController::
 Route::post('/shipping/update', [App\Http\Controllers\ShippingsController::class, 'update'])->name("shipping.update");
 Route::get('/shipping/edit_complete', [App\Http\Controllers\ShippingsController::class, 'edit_complete'])->name("shipping.edit_complete");
 Route::get('/shipping/create', [App\Http\Controllers\ShippingsController::class, 'create'])->name("shipping.create");
+Route::post('/shipping/add', [App\Http\Controllers\ShippingsController::class, 'add'])->name("shipping.add");
+
 
 
 
