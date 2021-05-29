@@ -60,7 +60,7 @@
 
     </script>
     <div>
-      {{ $items->links() }}
+      {{ $shippings->links() }}
     </div>
   </div>
 

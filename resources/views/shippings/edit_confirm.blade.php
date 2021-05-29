@@ -21,7 +21,7 @@
       </div>
       <div class="form-group">
         <label>TEL</label>
-        <div>{{ $input[""] }}</div>
+        <div>{{ $input["tel"] }}</div>
       </div>
       <button type="submit" name="back" class="btn btn-secondary">戻る</button>
       <button type="submit" class="btn btn-primary">更新</button>

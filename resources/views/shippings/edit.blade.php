@@ -22,7 +22,7 @@
       <input type="hidden" name="id" value="{{ old('id') ?? $shipping->id}}">
       <div class="form-group">
         <label for="name">出荷先名</label>
-        <input id="name" class="form-control" type="text" name="name" value="{{ old('name') ?? $shipping->product_name}}">
+        <input id="name" class="form-control" type="text" name="name" value="{{ old('name') ?? $shipping->name}}">
       </div>
       <div class="form-group">
         <label for="address">住所</label>
