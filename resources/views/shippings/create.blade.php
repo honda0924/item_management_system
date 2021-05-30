@@ -23,7 +23,7 @@
   <div id="ajax-confirm"></div>
   <div id="ajax-finished"></div>
   <script>
-    window.onload(function(){
+    window.onload = function(){
       function registerListen() {
         document.querySelector('#shipping-register').addEventListener("click", function () {
           $("#shipping-error-info").addClass('d-none');
