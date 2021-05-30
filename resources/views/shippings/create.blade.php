@@ -23,7 +23,7 @@
   <div id="ajax-confirm"></div>
   <div id="ajax-finished"></div>
   <script>
-    window.onload = function(){
+    window.onload(function(){
       function registerListen() {
         document.querySelector('#shipping-register').addEventListener("click", function () {
           $("#shipping-error-info").addClass('d-none');
@@ -71,6 +71,12 @@
             $("#ajax-contents").empty();
             $("#ajax-contents").append(inputHTML);
             window.history.replaceState(null, null,'/shipping/create');
+            window.addEventListener('popstate',function(event){
+              $("#ajax-confirm").empty();
+              $("#ajax-contents").empty();
+              $("#ajax-contents").append(inputHTML);
+              window.history.pushState(null, null,'/shipping/confirm');
+            });
             registerListen();
           });
           document.querySelector('#confirm-back').addEventListener("click", function () {
@@ -104,6 +110,12 @@
                 $("#ajax-contents").empty();
                 $("#ajax-contents").append(inputHTML);
                 window.history.replaceState(null, null,'/shipping/create');
+                window.addEventListener('popstate',function(event){
+                  $("#ajax-finished").empty();
+                  $("#ajax-contents").empty();
+                  $("#ajax-contents").append(inputHTML);
+                  window.history.pushState(null, null,'/shipping/confirm');
+                });
                 registerListen();
               });
 
