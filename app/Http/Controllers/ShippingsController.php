@@ -18,7 +18,8 @@ class ShippingsController extends Controller
 
     public function index()
     {
-        $shippings = DB::table('shippings')->paginate(5);
+        // $shippings = DB::table('shippings')->paginate(5);
+        $shippings = Shipping::paginate(5);
 
         return view('shippings/index', ['shippings' => $shippings]);
     }
@@ -67,7 +68,6 @@ class ShippingsController extends Controller
         $shipping->name = $input["name"];
         $shipping->address = $input["address"];
         $shipping->tel = $input["tel"];
-        $shipping->updated_at = now();
         $shipping->save();
 
 
@@ -77,7 +77,7 @@ class ShippingsController extends Controller
     }
     public function edit_complete()
     {
-        return view('shipping/edit_complete');
+        return view('shippings/edit_complete');
     }
     public function create()
     {
