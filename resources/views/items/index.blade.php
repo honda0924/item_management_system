@@ -10,6 +10,11 @@
   @endforeach --}}
   <div id="err_info"></div>
   <div>
+    <div class="d-flex w-50">
+      
+      <input class="form-control" type="text" id="item_search_input"  placeholder="フリーワードで検索">
+      <button class="btn btn-primary" id="item_search_btn">検索</button>
+    </div>
     <table class="table col">
       <thead>
         <tr>
@@ -65,6 +70,10 @@
     </div>
     <script>
       window.onload = function(){
+        $("#item_search_btn").on("click", function () {
+          const search_keyword=$("#item_search_input").val();
+          location.href=`/items?keyword=${search_keyword}`;
+        });
         $("#modal_delete").on('shown.bs.modal', function(event){
           const button = $(event.relatedTarget);
           const product_name = button.data('name');
