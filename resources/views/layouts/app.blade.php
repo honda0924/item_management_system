@@ -15,9 +15,10 @@
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.13.0/css/all.css" integrity="sha384-Bfad6CLCknfcloXFOyFnlgtENryhrpZCe29RTifKEixXQZ38WheV+i/6YWSzkz3V" crossorigin="anonymous">
 
     <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('/css/app.css') }}" rel="stylesheet">
 </head>
 <body>
     <div id="app">
@@ -33,7 +34,24 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
-
+                        <li class="mr-3">
+                            <p id="products_shippings" class="header__menu"> 商品/出荷先</p>
+                            <div id="products_shippings_list" class="d-none header__menu__list">
+                                <i class="fas fa-window-close menu__close"></i>
+                                <p><a href="/items">商品一覧</a></p>
+                                <p><a href="/item/create">商品登録</a></p>
+                                <p><a href="/shippings">出荷先一覧</a></p>
+                                <p><a href="/shipping/create">出荷先登録</a></p>
+                            </div>
+                        </li>
+                        <li class="mr-3">
+                            <p id="mypage_inquiry" class="header__menu">マイページ/お問い合わせ</p>
+                            <div id="mypage_inquiry_list" class="d-none header__menu__list">
+                                <i class="fas fa-window-close menu__close"></i>
+                                <p><a href="/mypage">マイページ</a></p>
+                                <p><a href="/inquiry">お問い合わせ</a></p>
+                            </div>
+                         </li>
                     </ul>
 
                     <!-- Right Side Of Navbar -->
@@ -79,5 +97,28 @@
             @yield('content')
         </main>
     </div>
+    <script>
+        window.onload = function () {
+            $(document).on('click',function(event){
+                if ($(event.target).closest('#mypage_inquiry').length) {
+                    $("#mypage_inquiry_list").removeClass("d-none");                    
+                } else{
+                    $("#mypage_inquiry_list").addClass("d-none");                    
+
+                }
+                if ($(event.target).closest('#products_shippings').length) {
+                    $("#products_shippings_list").removeClass("d-none");
+                }else{
+                    $("#products_shippings_list").addClass("d-none");                    
+                }
+            });
+            $(".menu__close").click(function (e) { 
+                $(this).parent().addClass('d-none');
+                
+            });
+
+        }
+
+    </script>
 </body>
 </html>
