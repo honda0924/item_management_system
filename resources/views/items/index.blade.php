@@ -18,12 +18,48 @@
     <table class="table col">
       <thead>
         <tr>
-          <th scope="col">id</th>
-          <th scope="col">商品名</th>
-          <th scope="col">入荷元</th>
-          <th scope="col">製造元</th>
-          <th scope="col">単価</th>
-          {{-- <th scope="col">作成日</th> --}}
+          <th scope="col">
+            <div class="d-flex">
+              <p>id</p>
+              <button class="sort btn btn-secondary ml-1" id="sort-id-asc">↑</button>
+              <button class="sort btn btn-secondary ml-1" id="sort-id-desc">↓</button>
+            </div>
+          </th>
+          <th scope="col">
+            <div class="d-flex">
+              <p>商品名</p>
+              <button class="sort btn btn-secondary ml-1" id="sort-product_name-asc">↑</button>
+              <button class="sort btn btn-secondary ml-1" id="sort-product_name-desc">↓</button>
+            </div>
+          </th>
+          <th scope="col">
+            <div class="d-flex">
+              <p>入荷元</p>
+              <button class="sort btn btn-secondary ml-1" id="sort-arrival_source-asc">↑</button>
+              <button class="sort btn btn-secondary ml-1" id="sort-arrivel_source-desc">↓</button>
+            </div>
+          </th>
+          <th scope="col">
+            <div class="d-flex">
+              <p>製造元</p>
+              <button class="sort btn btn-secondary ml-1" id="sort-manufacturer-asc">↑</button>
+              <button class="sort btn btn-secondary ml-1" id="sort-manufacturer-desc">↓</button>
+            </div>
+          </th>
+          <th scope="col">
+            <div class="d-flex">
+              <p>単価</p>
+              <button class="sort btn btn-secondary ml-1" id="sort-price-asc">↑</button>
+              <button class="sort btn btn-secondary ml-1" id="sort-price-desc">↓</button>
+            </div>
+          </th>
+          <th scope="col">
+            <div class="d-flex">
+              <p>作成日</p>
+              <button class="sort btn btn-secondary ml-1" id="sort-created_at-asc">↑</button>
+              <button class="sort btn btn-secondary ml-1" id="sort-created_at-desc">↓</button>
+            </div>
+          </th>
           {{-- <th scope="col">更新日</th> --}}
           <th scope="col">お気に入り</th>
           <th scope="col">アクション</th>
@@ -37,7 +73,7 @@
             <td class="arrival_source">{{$item->arrival_source}}</td>
             <td class="manufacturer">{{$item->manufacturer}}</td>
             <td class="price">{{$item->price}}</td>
-            {{-- <td class="created_at">{{$item->created_at}}</td> --}}
+            <td class="created_at">{{$item->created_at}}</td>
             {{-- <td class="updated_at">{{$item->updated_at}}</td> --}}
             <td class="is_favorite">{{$item->is_favorite==1 ? '○' : '×'}}</td>
             <td class="d-flex">
@@ -68,52 +104,68 @@
         </div>
       </div>
     </div>
-    <script>
-      window.onload = function(){
-        $("#item_search_btn").on("click", function () {
-          const search_keyword=$("#item_search_input").val();
-          location.href=`/items?keyword=${search_keyword}`;
-        });
-        $("#modal_delete").on('shown.bs.modal', function(event){
-          const button = $(event.relatedTarget);
-          const product_name = button.data('name');
-          const url = button.data('url');
-          $('#item_delete_candidate_name').text(product_name);
-          $('#item_delete_execute').on('click', function(){
-            location.href = url;
-          });
-        });
-        $(".add_cart").click(function(){
-          const target_num = $(this).parent().children(".item_num");
-          if (!target_num.val()){
-            target_num.val(1);
-          }
-          $.ajax({
-            headers: {
-              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-            url: "/cart/add",
-            type: "POST",
-            data:{
-              'user_id': {{Auth::user()["id"]}},
-              'product_id': $(this).data('id'),
-              'item_num': target_num.val()
-            }
-          }).done(function (data) {
-            $("#err_info").text(data);
-            target_num.val("");
-          }).fail(function(data){
-            $("#err_info").text(data);
-          })
-          
-        });
-      }
 
-
-    </script>
     <div>
-      {{ $items->links() }}
+      {{ $items->appends(request()->query())->links() }}
     </div>
   </div>
 
 @endsection
+<script>
+  window.onload = function(){
+    headerMenu();
+    function getParam(name, url) {
+      if (!url) url = window.location.href;
+      name = name.replace(/[\[\]]/g, "\\$&");
+      var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+          results = regex.exec(url);
+      if (!results) return null;
+      if (!results[2]) return '';
+      return decodeURIComponent(results[2].replace(/\+/g, " "));
+    }
+    $("#item_search_btn").on("click", function () {
+      const search_keyword=$("#item_search_input").val();
+      location.href=`/items?keyword=${search_keyword}`;
+    });
+    $(".sort").on("click",function () { 
+      const sort_key = $(this).attr('id').substr(5);
+      const url = getParam('keyword') ? `${location.pathname}?keyword=${getParam('keyword')}&sort=${sort_key}` : `${location.pathname}&sort=${sort_key}`;
+      location.href = url;
+    });
+    $("#modal_delete").on('shown.bs.modal', function(event){
+      const button = $(event.relatedTarget);
+      const product_name = button.data('name');
+      const url = button.data('url');
+      $('#item_delete_candidate_name').text(product_name);
+      $('#item_delete_execute').on('click', function(){
+        location.href = url;
+      });
+    });
+    $(".add_cart").click(function(){
+      const target_num = $(this).parent().children(".item_num");
+      if (!target_num.val()){
+        target_num.val(1);
+      }
+      $.ajax({
+        headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        url: "/cart/add",
+        type: "POST",
+        data:{
+          'user_id': {{Auth::user()["id"]}},
+          'product_id': $(this).data('id'),
+          'item_num': target_num.val()
+        }
+      }).done(function (data) {
+        $("#err_info").text(data);
+        target_num.val("");
+      }).fail(function(data){
+        $("#err_info").text(data);
+      })
+      
+    });
+  }
+
+
+</script>

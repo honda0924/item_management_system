@@ -16,6 +16,7 @@ class ItemsController extends Controller
     public function index()
     {
         $keyword = request('keyword');
+        $sort_key = request('sort') ? explode('-', request('sort')) : ['id', 'asc'];
         $items = DB::table('items')
             ->leftJoin('favorite', 'favorite.product_id', '=', 'items.id')
             ->select(DB::raw('items.id as id, items.product_name as product_name, items.arrival_source as arrival_source, items.manufacturer as manufacturer,items.price as price, items.created_at as created_at, items.updated_at as updated_at, count(favorite.user_id=?) as is_favorite'))
@@ -24,6 +25,7 @@ class ItemsController extends Controller
             ->where('items.product_name', 'like', '%' . $keyword . '%')
             ->orWhere('items.arrival_source', 'like', '%' . $keyword . '%')
             ->orWhere('items.manufacturer', 'like', '%' . $keyword . '%')
+            ->orderBy($sort_key[0], $sort_key[1])
             ->paginate(5);
 
         return view('items/index', ['items' => $items]);
