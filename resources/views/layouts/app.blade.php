@@ -98,7 +98,7 @@
         </main>
     </div>
     <script>
-        window.onload = function () {
+        function headerMenu() {
             $(document).on('click',function(event){
                 if ($(event.target).closest('#mypage_inquiry').length) {
                     $("#mypage_inquiry_list").removeClass("d-none");                    
