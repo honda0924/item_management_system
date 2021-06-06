@@ -71,3 +71,4 @@ Route::post('/inquiry/post', [App\Http\Controllers\InquiryController::class, 'po
 Route::get('/inquiry/confirm', [App\Http\Controllers\InquiryController::class, 'confirm'])->name('inquiry.confirm');
 Route::post('/inquiry/send', [App\Http\Controllers\InquiryController::class, 'send'])->name('inquiry.send');
 Route::get('/inquiry/complete', [App\Http\Controllers\InquiryController::class, 'complete'])->name('inquiry.complete');
+Route::get('/inquiry/csv', [App\Http\Controllers\InquiryController::class, 'csv'])->name('inquiry.csv');

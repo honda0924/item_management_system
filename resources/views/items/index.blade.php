@@ -11,7 +11,6 @@
   <div id="err_info"></div>
   <div>
     <div class="d-flex w-50">
-      
       <input class="form-control" type="text" id="item_search_input"  placeholder="フリーワードで検索">
       <button class="btn btn-primary" id="item_search_btn">検索</button>
     </div>

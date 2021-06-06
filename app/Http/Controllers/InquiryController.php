@@ -70,59 +70,8 @@ class InquiryController extends Controller
     {
         return view('inquiry/complete');
     }
+    public function csv()
+    {
+        return view('inquiry/csv');
+    }
 }
-
-
-// class ItemsController extends Controller
-// {
-//     private $itemElements = ["product_name", "arrival_source", "manufacturer", "email", "tel"];
-
-
-
-
-
-
-//     public function send(Request $request)
-//     {
-//         $input = $request->session()->get('form_input');
-
-//         if ($request->has('back')) {
-//             return redirect('item/create')
-//                 ->withInput($input);
-//         }
-
-//         if (!$input) {
-//             return redirect('items/create');
-//         }
-//         // register operation
-
-//         $reg_info = now() . 'に' . $input['email'] . 'が商品追加を実施';
-//         DB::transaction(function () use ($input, $reg_info) {
-//             DB::table('items')->insert(
-//                 [
-//                     'product_name' => $input["product_name"],
-//                     'arrival_source' => $input["arrival_source"],
-//                     'manufacturer' => $input["manufacturer"],
-//                     'created_at' => now(),
-//                     'updated_at' => now(),
-//                 ]
-//             );
-//             DB::table('logs')->insert(
-//                 [
-//                     'email' => $input["email"],
-//                     'tel' => $input["tel"],
-//                     'information' => $reg_info,
-//                 ]
-//             );
-//         });
-
-
-
-//         $request->session()->forget('form_input');
-//         return redirect('item/complete');
-//     }
-//     public function complete()
-//     {
-//         return view('items/complete');
-//     }
-// }
