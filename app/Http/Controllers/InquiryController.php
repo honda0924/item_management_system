@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
@@ -58,7 +59,26 @@ class InquiryController extends Controller
         // register operation
         // Log::debug('input:' . print_r($input));
         Mail::to($input["email"])->cc(config('mail.from.address'))->send(new InquiryMail($input));
+        if ($input["gender"] == '男性') {
+            # code...
+            $gender = 0;
+        } elseif ($input["gender"] == '女性') {
+            # code...
+            $gender = 1;
+        }
 
+        DB::table('inquiries')->insert(
+            [
+                'inquirer_name' => $input["inquirer_name"],
+                'email' => $input["email"],
+                'tel' => $input["tel"],
+                'gender' => $gender,
+                'hobby' => $input["hobby"],
+                'skill' => $input["skill"],
+                'inquiry_text' => $input["inquiry_text"],
+                'created_at' => now(),
+            ]
+        );
 
 
 
