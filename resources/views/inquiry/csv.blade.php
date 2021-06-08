@@ -13,7 +13,7 @@
 
   @endif
   <div class="w-50">
-    <form method="post" action="{{ url('/inquiry/csv') }}">
+    <form method="post" action="{{ url('/inquiry/download') }}">
       @csrf
       <div class="form-group">
         <label for="inquirer_name">お問い合わせ（年）(必須)</label>

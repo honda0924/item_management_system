@@ -94,4 +94,63 @@ class InquiryController extends Controller
     {
         return view('inquiry/csv');
     }
+    public function download(Request $request)
+    {
+        $headers = [ //ヘッダー情報
+            'Content-type' => 'text/csv',
+            'Content-Disposition' => 'attachment; filename=inquiryexport.csv',
+            'Pragma' => 'no-cache',
+            'Cache-Control' => 'must-revalidate, post-check=0, pre-check=0',
+            'Expires' => '0',
+        ];
+
+        $callback = function () use ($request) {
+            $createCsvFile = fopen('php://output', 'w');
+
+            $columns = [
+                'inquirer_name',
+                'email',
+                'tel',
+                'gender',
+                'hobby',
+                'skill',
+                'inquiry_text',
+                'created_at',
+            ];
+
+            mb_convert_variables('SJIS-win', 'UTF-8', $columns);
+
+            fputcsv($createCsvFile, $columns);
+
+            $validator = [
+                "inquiry_year" => "required|integer",
+                "inquiry_month" => "required|integer",
+
+            ];
+
+            $request->validate($validator);
+            $inquiries = DB::table('inquiries')
+                ->whereYear('created_at', '=', $request["inquiry_year"])
+                ->whereMonth('created_at', '=', $request["inquiry_month"])
+                ->get();
+            foreach ($inquiries as $row) {
+                $csv = [
+                    $row->inquirer_name,
+                    $row->email,
+                    $row->tel,
+                    $row->gender == 0 ? '男性' : '女性',
+                    $row->hobby,
+                    $row->skill,
+                    $row->inquiry_text,
+                    $row->created_at,
+                ];
+                mb_convert_variables('SJIS-win', 'UTF-8', $csv);
+
+                fputcsv($createCsvFile, $csv);
+            }
+            fclose($createCsvFile);
+        };
+
+        return response()->stream($callback, 200, $headers);
+    }
 }

@@ -72,3 +72,4 @@ Route::get('/inquiry/confirm', [App\Http\Controllers\InquiryController::class, '
 Route::post('/inquiry/send', [App\Http\Controllers\InquiryController::class, 'send'])->name('inquiry.send');
 Route::get('/inquiry/complete', [App\Http\Controllers\InquiryController::class, 'complete'])->name('inquiry.complete');
 Route::get('/inquiry/csv', [App\Http\Controllers\InquiryController::class, 'csv'])->name('inquiry.csv');
+Route::post('/inquiry/download', [App\Http\Controllers\InquiryController::class, 'download'])->name('inquiry.download');
