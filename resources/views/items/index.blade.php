@@ -63,48 +63,50 @@
         </div>
       </div>
     </div>
-    <script>
-      window.onload = function(){
-        $("#modal_delete").on('shown.bs.modal', function(event){
-          const button = $(event.relatedTarget);
-          const product_name = button.data('name');
-          const url = button.data('url');
-          $('#item_delete_candidate_name').text(product_name);
-          $('#item_delete_execute').on('click', function(){
-            location.href = url;
-          });
-        });
-        $(".add_cart").click(function(){
-          const target_num = $(this).parent().children(".item_num");
-          if (!target_num.val()){
-            target_num.val(1);
-          }
-          $.ajax({
-            headers: {
-              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-            url: "/cart/add",
-            type: "POST",
-            data:{
-              'user_id': {{Auth::user()["id"]}},
-              'product_id': $(this).data('id'),
-              'item_num': target_num.val()
-            }
-          }).done(function (data) {
-            $("#err_info").text(data);
-            target_num.val("");
-          }).fail(function(data){
-            $("#err_info").text(data);
-          })
-          
-        });
-      }
 
-
-    </script>
     <div>
       {{ $items->links() }}
     </div>
   </div>
 
 @endsection
+<script>
+  window.onload = function(){
+    headerMenu();
+    $("#modal_delete").on('shown.bs.modal', function(event){
+      const button = $(event.relatedTarget);
+      const product_name = button.data('name');
+      const url = button.data('url');
+      $('#item_delete_candidate_name').text(product_name);
+      $('#item_delete_execute').on('click', function(){
+        location.href = url;
+      });
+    });
+    $(".add_cart").click(function(){
+      const target_num = $(this).parent().children(".item_num");
+      if (!target_num.val()){
+        target_num.val(1);
+      }
+      $.ajax({
+        headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        url: "/cart/add",
+        type: "POST",
+        data:{
+          'user_id': {{Auth::user()["id"]}},
+          'product_id': $(this).data('id'),
+          'item_num': target_num.val()
+        }
+      }).done(function (data) {
+        $("#err_info").text(data);
+        target_num.val("");
+      }).fail(function(data){
+        $("#err_info").text(data);
+      })
+      
+    });
+  }
+
+
+</script>
