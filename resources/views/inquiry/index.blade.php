@@ -51,34 +51,32 @@
     </form>
   </div>
 
-  <script>
-    window.onload = function(){
-      if ($('input:radio[name="gender"]').val()==="女性") {
-        $('#female').trigger('click');
-        $('#female-skill').removeClass("d-none");
-        $('#male-hobby').addClass("d-none");
-      } else {
-        $('#male').trigger('click');
-        $('#female-skill').addClass("d-none");
-        $('#male-hobby').removeClass("d-none");
-      }
-      $('#female').click(function(){
-          $('#female-skill').removeClass("d-none");
-          $('#male-hobby').addClass("d-none");
-          $('input:radio[name="gender"]').val("女性");
-      });
-      $('#male').click(function(){
-          $('#female-skill').addClass("d-none");
-          $('#male-hobby').removeClass("d-none");
-          $('input:radio[name="gender"]').val("男性");
-      });
-    }
-  </script>
+
 
 
 @endsection
 <script>
   window.onload = function(){
     headerMenu();
+
+    if ($('input:radio[name="gender"]').val()==="女性") {
+      $('#female').trigger('click');
+      $('#female-skill').removeClass("d-none");
+      $('#male-hobby').addClass("d-none");
+    } else {
+      $('#male').trigger('click');
+      $('#female-skill').addClass("d-none");
+      $('#male-hobby').removeClass("d-none");
+    }
+    $('#female').click(function(){
+        $('#female-skill').removeClass("d-none");
+        $('#male-hobby').addClass("d-none");
+        $('input:radio[name="gender"]').val("女性");
+    });
+    $('#male').click(function(){
+        $('#female-skill').addClass("d-none");
+        $('#male-hobby').removeClass("d-none");
+        $('input:radio[name="gender"]').val("男性");
+    });
   }
 </script>

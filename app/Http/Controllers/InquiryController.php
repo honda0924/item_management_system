@@ -118,7 +118,7 @@ class InquiryController extends Controller
                 'created_at',
             ];
 
-            mb_convert_variables('SJIS-win', 'UTF-8', $columns);
+            // mb_convert_variables('SJIS-win', 'UTF-8', $columns);
 
             fputcsv($createCsvFile, $columns);
 
@@ -144,7 +144,7 @@ class InquiryController extends Controller
                     $row->inquiry_text,
                     $row->created_at,
                 ];
-                mb_convert_variables('SJIS-win', 'UTF-8', $csv);
+                // mb_convert_variables('SJIS-win', 'UTF-8', $csv);
 
                 fputcsv($createCsvFile, $csv);
             }
