@@ -1,12 +1,16 @@
 @extends('layouts.app')
 
 @section('content')
-  <h4>商品登録</h4>
-  <h6>以下の内容で登録します。よろしいですか？</h6>
+  <h4>商品更新</h4>
+  <h6>以下の内容で更新します。よろしいですか？</h6>
 
   <div class="w-50">
-    <form method="post" action="{{ url('/item/send') }}">
+    <form method="post" action="{{ route('item.update', $input["id"]) }}">
       @csrf
+      <div class="form-group">
+        <label>id</label>
+        <div>{{ $input["id"] }}</div>
+      </div>      
       <div class="form-group">
         <label>商品名</label>
         <div>{{ $input["product_name"] }}</div>
@@ -20,19 +24,12 @@
         <div>{{ $input["manufacturer"] }}</div>
       </div>
       <div class="form-group">
-        <label>金額</label>
+        <label>単価</label>
         <div>{{ $input["price"] }}</div>
       </div>
-      <div class="form-group">
-        <label>メールアドレス</label>
-        <div>{{ $input["email"] }}</div>
-      </div>
-      <div class="form-group">
-        <label>電話番号</label>
-        <div>{{ $input["tel"] }}</div>
-      </div>
+
       <button type="submit" name="back" class="btn btn-secondary">戻る</button>
-      <button type="submit" class="btn btn-primary">登録</button>
+      <button type="submit" class="btn btn-primary">更新</button>
     </form>
   </div>
 
