@@ -29,7 +29,7 @@ class ItemsController extends Controller
             ->orderBy($sort_key[0], $sort_key[1])
             ->paginate(5);
 
-        return view('items/index', ['items' => $items]);
+        return view('items/index', compact('items'));
     }
 
     public function create()
@@ -51,7 +51,7 @@ class ItemsController extends Controller
             return redirect('item/create');
         }
 
-        return view('items/confirm', ["input" => $input]);
+        return view('items/confirm', compact("input"));
     }
     public function send(Request $request)
     {
