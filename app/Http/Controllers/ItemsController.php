@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ItemRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Item;
@@ -23,18 +24,9 @@ class ItemsController extends Controller
     {
         return view('items/create');
     }
-    public function post(Request $request)
+    public function post(ItemRequest $request)
     {
         $input = $request->only($this->itemElements);
-        $validator = [
-            "product_name" => "required|string",
-            "arrival_source" => "nullable|string",
-            "manufacturer" => "nullable|string",
-            "email" => "required|string|email:strict,dns",
-            "tel" => "required|regex:/^[0-9\-]+$/i",
-        ];
-
-        $request->validate($validator);
         $request->session()->put("form_input", $input);
 
         return redirect('item/confirm');
