@@ -29,6 +29,7 @@ class ItemRequest extends FormRequest
             "product_name" => "required|string",
             "arrival_source" => "nullable|string",
             "manufacturer" => "nullable|string",
+            "price" => "required|integer",
             "email" => "required|string|email:strict,dns",
             "tel" => "required|regex:/^[0-9\-]+$/i",
 

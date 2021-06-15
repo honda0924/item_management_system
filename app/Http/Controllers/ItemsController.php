@@ -10,7 +10,7 @@ use Validator;
 
 class ItemsController extends Controller
 {
-    private $itemElements = ["product_name", "arrival_source", "manufacturer", "email", "tel"];
+    private $itemElements = ["product_name", "arrival_source", "manufacturer", "price", "email", "tel"];
 
 
     public function index()
@@ -62,6 +62,7 @@ class ItemsController extends Controller
                     'product_name' => $input["product_name"],
                     'arrival_source' => $input["arrival_source"],
                     'manufacturer' => $input["manufacturer"],
+                    'price' => $input["price"],
                     'created_at' => now(),
                     'updated_at' => now(),
                 ]

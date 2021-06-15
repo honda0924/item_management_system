@@ -32,10 +32,10 @@
         <label for="manufacturer">製造元</label>
         <input id="manufacturer" class="form-control" type="text" name="manufacturer" value="{{ old('manufacturer')}}">
       </div>
-      {{-- <div class="form-group">
+      <div class="form-group">
         <label for="price">金額</label>
         <input id="price" class="form-control" type="text" name="price">
-      </div> --}}
+      </div>
       <div class="form-group">
         <label for="email">メールアドレス(必須)</label>
         <input id="email" class="form-control" type="email" name="email" value="{{ old('email')}}">
