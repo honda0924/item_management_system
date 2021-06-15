@@ -15,10 +15,10 @@ class UsersTableSeeder extends Seeder
     {
         //
         \DB::table('users')->insert([
-            'name'=> '検証ユーザー',
-            'email'=> 'test@gmail.com',
-            'login_id'=>'1',
-            'password'=>bcrypt('password'),
+            'name' => '検証ユーザー',
+            'email' => 'test@gmail.com',
+            'login_id' => '1',
+            'password' => bcrypt('password'),
         ]);
     }
 }

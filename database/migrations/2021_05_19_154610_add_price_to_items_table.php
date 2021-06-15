@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateShippingsTable extends Migration
+class AddPriceToItemsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,9 @@ class CreateShippingsTable extends Migration
      */
     public function up()
     {
-        Schema::create('_shippings', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+        Schema::table('items', function (Blueprint $table) {
+            //
+            $table->integer('price');
         });
     }
 
@@ -26,6 +26,8 @@ class CreateShippingsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('_shippings');
+        Schema::table('items', function (Blueprint $table) {
+            //
+        });
     }
 }
