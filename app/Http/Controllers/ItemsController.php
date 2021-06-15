@@ -56,7 +56,32 @@ class ItemsController extends Controller
         // register operation
 
         $reg_info = now() . 'に' . $input['email'] . 'が商品追加を実施';
-        DB::transaction(function () use ($input, $reg_info) {
+DB::beginTransaction();//トランザクションの開始
+try {
+  //DBの一連の処理はtryの中に全て書く
+  DB::table('items')->insert(
+    [
+      'product_name' => $input["product_name"],
+      'arrival_source' => $input["arrival_source"],
+      'manufacturer' => $input["manufacturer"],
+      'created_at' => now(),
+      'updated_at' => now(),
+    ]
+  );
+  DB::table('logs')->insert(
+    [
+      'email' => $input["email"],
+      'tel' => $input["tel"],
+      'information' => $reg_info,
+    ]
+  );
+  DB::commit();//問題なく全ての処理が完了すればDBに反映
+} catch (\Exception $e) {
+  DB::rollBack();//エラーが発生した場合はDBのロールバックを行う
+  \Log::info($e);//リリース後のことを考えてログにエラーは吐き出しておくのが吉
+  exit;
+}
+
             DB::table('items')->insert(
                 [
                     'product_name' => $input["product_name"],
