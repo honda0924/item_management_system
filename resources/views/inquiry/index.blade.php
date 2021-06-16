@@ -30,7 +30,7 @@
       <div class="form-group">
         <label>性別</label>
         <div class="d-flex">
-          <input type="radio" name="gender" id="male" value="{{ old('gender') }}" checked>男性
+          <input type="radio" name="gender" id="male" value="男性" @if(old('gender') == '男性' || empty(old('gender'))) checked @endif>男性
           <input type="radio" name="gender" id="female" value="女性" @if(old('gender') == '女性') checked @endif >女性
         </div>
         <div class="form-group" id="male-hobby">
