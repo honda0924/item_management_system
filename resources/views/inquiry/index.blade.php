@@ -52,7 +52,7 @@
   </div>
 
   <script>
-    window.onload = function(){
+    $(document).ready(function () {
       if ($('input:radio[name="gender"]').val()==="女性") {
         $('#female').trigger('click');
         $('#female-skill').removeClass("d-none");
