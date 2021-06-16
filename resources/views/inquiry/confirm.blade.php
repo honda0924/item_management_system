@@ -20,6 +20,21 @@
         <div>{{ $input["tel"] }}</div>
       </div>
       <div class="form-group">
+        <label>性別</label>
+        <div>{{ $input["gender"] }}</div>
+      </div>
+      @if ($input["gender"]=="男性")
+        <div class="form-group">
+          <label>趣味</label>
+          <div>{{ $input["hobby"] }}</div>
+        </div>
+      @else
+        <div class="form-group">
+          <label>特技</label>
+          <div>{{ $input["skill"] }}</div>
+        </div>
+      @endif
+      <div class="form-group">
         <label>お問い合わせ内容</label>
         <div>{{ $input["inquiry_text"] }}</div>
       </div>

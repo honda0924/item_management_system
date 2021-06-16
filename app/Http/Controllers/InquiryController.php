@@ -9,7 +9,7 @@ use App\Mail\InquiryMail;
 
 class InquiryController extends Controller
 {
-    private $inquiryElements = ["inquirer_name", "email", "tel", "inquiry_text"];
+    private $inquiryElements = ["inquirer_name", "email", "tel", "gender", "hobby", "skill", "inquiry_text"];
     //
     public function index()
     {
@@ -22,6 +22,9 @@ class InquiryController extends Controller
             "inquirer_name" => "required|string",
             "email" => "required|string|email:strict,dns",
             "tel" => "required|regex:/^[0-9\-]+$/i",
+            "gender" => "required|string",
+            "hobby" => "nullable|string",
+            "skill" => "nullable|string",
             "inquiry_text" => "required|string",
         ];
 
