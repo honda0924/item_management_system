@@ -30,6 +30,9 @@
                         <li>
                             <a href="/inquiry">お問い合わせ</a>
                         </li>
+                        <li>
+                            <a href="/mypage">マイページ</a>
+                        </li>
                     </ul>
                     
                 </div>

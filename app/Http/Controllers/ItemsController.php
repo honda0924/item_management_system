@@ -2,39 +2,44 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Log;
+use App\Http\Requests\ItemRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Item;
+use Illuminate\Support\Facades\Auth;
 use Validator;
 
 class ItemsController extends Controller
 {
-    private $itemElements = ["product_name", "arrival_source", "manufacturer", "email", "tel"];
-    private $itemEditElements = ["id", "product_name", "arrival_source", "manufacturer"];
+    private $itemElements = ["product_name", "arrival_source", "manufacturer", "price", "email", "tel"];
+    private $itemEditElements = ["id", "product_name", "arrival_source", "manufacturer", "price"];
 
     public function index()
     {
-        $items = Item::paginate(5);
+        $keyword = request('keyword');
+        $sort_key = request('sort') ? explode('-', request('sort')) : ['id', 'asc'];
+        $items = DB::table('items')
+            ->leftJoin('favorite', 'favorite.product_id', '=', 'items.id')
+            ->select(DB::raw('items.id as id, items.product_name as product_name, items.arrival_source as arrival_source, items.manufacturer as manufacturer,items.price as price, items.created_at as created_at, items.updated_at as updated_at, count(favorite.user_id=?) as is_favorite'))
+            ->setBindings([Auth::user()["id"]])
+            ->groupBy('items.id')
+            ->where('items.product_name', 'like', '%' . $keyword . '%')
+            ->orWhere('items.arrival_source', 'like', '%' . $keyword . '%')
+            ->orWhere('items.manufacturer', 'like', '%' . $keyword . '%')
+            ->orderBy($sort_key[0], $sort_key[1])
+            ->paginate(5);
 
-        return view('items/index', ['items' => $items]);
+        return view('items/index', compact('items'));
     }
 
     public function create()
     {
         return view('items/create');
     }
-    public function post(Request $request)
+    public function post(ItemRequest $request)
     {
         $input = $request->only($this->itemElements);
-        $validator = [
-            "product_name" => "required|string",
-            "arrival_source" => "nullable|string",
-            "manufacturer" => "nullable|string",
-            "email" => "required|string|email:strict,dns",
-            "tel" => "required|regex:/^[0-9\-]+$/i",
-        ];
-
-        $request->validate($validator);
         $request->session()->put("form_input", $input);
 
         return redirect('item/confirm');
@@ -47,7 +52,7 @@ class ItemsController extends Controller
             return redirect('item/create');
         }
 
-        return view('items/confirm', ["input" => $input]);
+        return view('items/confirm', compact("input"));
     }
     public function send(Request $request)
     {
@@ -64,7 +69,9 @@ class ItemsController extends Controller
         // register operation
 
         $reg_info = now() . 'に' . $input['email'] . 'が商品追加を実施';
-        DB::transaction(function () use ($input, $reg_info) {
+        DB::beginTransaction(); //トランザクションの開始
+        try {
+            //DBの一連の処理はtryの中に全て書く
             DB::table('items')->insert(
                 [
                     'product_name' => $input["product_name"],
@@ -81,7 +88,13 @@ class ItemsController extends Controller
                     'information' => $reg_info,
                 ]
             );
-        });
+            DB::commit(); //問題なく全ての処理が完了すればDBに反映
+        } catch (\Exception $e) {
+            DB::rollBack(); //エラーが発生した場合はDBのロールバックを行う
+            Log::info($e); //リリース後のことを考えてログにエラーは吐き出しておくのが吉
+            exit;
+        }
+
 
 
 
@@ -110,6 +123,7 @@ class ItemsController extends Controller
             "product_name" => "required|string",
             "arrival_source" => "nullable|string",
             "manufacturer" => "nullable|string",
+            "price" => "required|integer",
         ];
 
         $request->validate($validator);
@@ -135,6 +149,7 @@ class ItemsController extends Controller
         $item->product_name = $input["product_name"];
         $item->arrival_source = $input["arrival_source"];
         $item->manufacturer = $input["manufacturer"];
+        $item->price = $input["price"];
         $item->updated_at = now();
         $item->save();
 

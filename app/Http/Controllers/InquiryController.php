@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
@@ -9,7 +10,7 @@ use App\Mail\InquiryMail;
 
 class InquiryController extends Controller
 {
-    private $inquiryElements = ["inquirer_name", "email", "tel", "inquiry_text"];
+    private $inquiryElements = ["inquirer_name", "email", "tel", "gender", "hobby", "skill", "inquiry_text"];
     //
     public function index()
     {
@@ -22,6 +23,9 @@ class InquiryController extends Controller
             "inquirer_name" => "required|string",
             "email" => "required|string|email:strict,dns",
             "tel" => "required|regex:/^[0-9\-]+$/i",
+            "gender" => "required|string",
+            "hobby" => "nullable|string",
+            "skill" => "nullable|string",
             "inquiry_text" => "required|string",
         ];
 
@@ -55,7 +59,26 @@ class InquiryController extends Controller
         // register operation
         // Log::debug('input:' . print_r($input));
         Mail::to($input["email"])->cc(config('mail.from.address'))->send(new InquiryMail($input));
+        if ($input["gender"] == '男性') {
+            # code...
+            $gender = 0;
+        } elseif ($input["gender"] == '女性') {
+            # code...
+            $gender = 1;
+        }
 
+        DB::table('inquiries')->insert(
+            [
+                'inquirer_name' => $input["inquirer_name"],
+                'email' => $input["email"],
+                'tel' => $input["tel"],
+                'gender' => $gender,
+                'hobby' => $input["hobby"],
+                'skill' => $input["skill"],
+                'inquiry_text' => $input["inquiry_text"],
+                'created_at' => now(),
+            ]
+        );
 
 
 
@@ -67,59 +90,67 @@ class InquiryController extends Controller
     {
         return view('inquiry/complete');
     }
+    public function csv()
+    {
+        return view('inquiry/csv');
+    }
+    public function download(Request $request)
+    {
+        $headers = [ //ヘッダー情報
+            'Content-type' => 'text/csv',
+            'Content-Disposition' => 'attachment; filename=inquiryexport.csv',
+            'Pragma' => 'no-cache',
+            'Cache-Control' => 'must-revalidate, post-check=0, pre-check=0',
+            'Expires' => '0',
+        ];
+
+        $callback = function () use ($request) {
+            $createCsvFile = fopen('php://output', 'w');
+
+            $columns = [
+                'inquirer_name',
+                'email',
+                'tel',
+                'gender',
+                'hobby',
+                'skill',
+                'inquiry_text',
+                'created_at',
+            ];
+
+            // mb_convert_variables('SJIS-win', 'UTF-8', $columns);
+
+            fputcsv($createCsvFile, $columns);
+
+            $validator = [
+                "inquiry_year" => "required|integer",
+                "inquiry_month" => "required|integer",
+
+            ];
+
+            $request->validate($validator);
+            $inquiries = DB::table('inquiries')
+                ->whereYear('created_at', '=', $request["inquiry_year"])
+                ->whereMonth('created_at', '=', $request["inquiry_month"])
+                ->get();
+            foreach ($inquiries as $row) {
+                $csv = [
+                    $row->inquirer_name,
+                    $row->email,
+                    $row->tel,
+                    $row->gender == 0 ? '男性' : '女性',
+                    $row->hobby,
+                    $row->skill,
+                    $row->inquiry_text,
+                    $row->created_at,
+                ];
+                // mb_convert_variables('SJIS-win', 'UTF-8', $csv);
+
+                fputcsv($createCsvFile, $csv);
+            }
+            fclose($createCsvFile);
+        };
+
+        return response()->stream($callback, 200, $headers);
+    }
 }
-
-
-// class ItemsController extends Controller
-// {
-//     private $itemElements = ["product_name", "arrival_source", "manufacturer", "email", "tel"];
-
-
-
-
-
-
-//     public function send(Request $request)
-//     {
-//         $input = $request->session()->get('form_input');
-
-//         if ($request->has('back')) {
-//             return redirect('item/create')
-//                 ->withInput($input);
-//         }
-
-//         if (!$input) {
-//             return redirect('items/create');
-//         }
-//         // register operation
-
-//         $reg_info = now() . 'に' . $input['email'] . 'が商品追加を実施';
-//         DB::transaction(function () use ($input, $reg_info) {
-//             DB::table('items')->insert(
-//                 [
-//                     'product_name' => $input["product_name"],
-//                     'arrival_source' => $input["arrival_source"],
-//                     'manufacturer' => $input["manufacturer"],
-//                     'created_at' => now(),
-//                     'updated_at' => now(),
-//                 ]
-//             );
-//             DB::table('logs')->insert(
-//                 [
-//                     'email' => $input["email"],
-//                     'tel' => $input["tel"],
-//                     'information' => $reg_info,
-//                 ]
-//             );
-//         });
-
-
-
-//         $request->session()->forget('form_input');
-//         return redirect('item/complete');
-//     }
-//     public function complete()
-//     {
-//         return view('items/complete');
-//     }
-// }

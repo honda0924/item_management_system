@@ -5,29 +5,24 @@
   <h6>以下の内容で更新します。よろしいですか？</h6>
 
   <div class="w-50">
-    <form method="post" action="{{ route('item.update', $input["id"]) }}">
+    <form method="post" action="{{ route('shipping.update', $input["id"]) }}">
       @csrf
       <div class="form-group">
         <label>id</label>
         <div>{{ $input["id"] }}</div>
       </div>      
       <div class="form-group">
-        <label>商品名</label>
-        <div>{{ $input["product_name"] }}</div>
+        <label>入荷先名</label>
+        <div>{{ $input["name"] }}</div>
       </div>
       <div class="form-group">
-        <label>入荷元</label>
-        <div>{{ $input["arrival_source"] }}</div>
+        <label>住所</label>
+        <div>{{ $input["address"] }}</div>
       </div>
       <div class="form-group">
-        <label>製造元</label>
-        <div>{{ $input["manufacturer"] }}</div>
+        <label>TEL</label>
+        <div>{{ $input["tel"] }}</div>
       </div>
-      <div class="form-group">
-        <label>単価</label>
-        <div>{{ $input["price"] }}</div>
-      </div>
-
       <button type="submit" name="back" class="btn btn-secondary">戻る</button>
       <button type="submit" class="btn btn-primary">更新</button>
     </form>
