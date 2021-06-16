@@ -31,7 +31,7 @@
         <label>性別</label>
         <div class="d-flex">
           <input type="radio" name="gender" id="male" value="{{ old('gender') }}" checked>男性
-          <input type="radio" name="gender" id="female" value="{{ old('gender') }}" >女性
+          <input type="radio" name="gender" id="female" value="女性" @if(old('gender') == '女性') checked @endif >女性
         </div>
         <div class="form-group" id="male-hobby">
           <label for="hobby">趣味</label>
