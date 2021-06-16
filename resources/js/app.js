@@ -30,3 +30,23 @@ Vue.component('example-component', require('./components/ExampleComponent.vue').
 const app = new Vue({
     el: '#app',
 });
+const headerMenu = function() {
+    $(document).on('click',function(event){
+        if ($(event.target).closest('#mypage_inquiry').length) {
+            $("#mypage_inquiry_list").removeClass("d-none");                    
+        } else{
+            $("#mypage_inquiry_list").addClass("d-none");                    
+
+        }
+        if ($(event.target).closest('#products_shippings').length) {
+            $("#products_shippings_list").removeClass("d-none");
+        }else{
+            $("#products_shippings_list").addClass("d-none");                    
+        }
+    });
+    $(".menu__close").click(function (e) { 
+        $(this).parent().addClass('d-none');
+        
+    });
+
+}
