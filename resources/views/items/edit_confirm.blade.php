@@ -23,6 +23,10 @@
         <label>製造元</label>
         <div>{{ $input["manufacturer"] }}</div>
       </div>
+      <div class="form-group">
+        <label>単価</label>
+        <div>{{ $input["price"] }}</div>
+      </div>
 
       <button type="submit" name="back" class="btn btn-secondary">戻る</button>
       <button type="submit" class="btn btn-primary">更新</button>

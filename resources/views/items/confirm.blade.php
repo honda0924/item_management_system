@@ -19,10 +19,10 @@
         <label>製造元</label>
         <div>{{ $input["manufacturer"] }}</div>
       </div>
-      {{-- <div class="form-group">
+      <div class="form-group">
         <label>金額</label>
         <div>{{ $input["price"] }}</div>
-      </div> --}}
+      </div>
       <div class="form-group">
         <label>メールアドレス</label>
         <div>{{ $input["email"] }}</div>

@@ -10,14 +10,14 @@ use Validator;
 
 class ItemsController extends Controller
 {
-    private $itemElements = ["product_name", "arrival_source", "manufacturer", "email", "tel"];
-    private $itemEditElements = ["id", "product_name", "arrival_source", "manufacturer"];
+    private $itemElements = ["product_name", "arrival_source", "manufacturer", "price", "email", "tel"];
+    private $itemEditElements = ["id", "product_name", "arrival_source", "manufacturer", "price"];
 
     public function index()
     {
         // $items = Item::paginate(5);
         $items = DB::select(
-            'select items.id as id, items.product_name as product_name, items.arrival_source as arrival_source, items.manufacturer as manufacturer,items.created_at as created_at,items.updated_at as updated_at, 
+            'select items.id as id, items.product_name as product_name, items.arrival_source as arrival_source, items.manufacturer as manufacturer, items.price as price, items.created_at as created_at,items.updated_at as updated_at, 
             count(favorite.user_id=?) as is_favorite 
             from items 
             left join favorite
@@ -45,6 +45,7 @@ class ItemsController extends Controller
             "product_name" => "required|string",
             "arrival_source" => "nullable|string",
             "manufacturer" => "nullable|string",
+            "price" => "required|integer",
             "email" => "required|string|email:strict,dns",
             "tel" => "required|regex:/^[0-9\-]+$/i",
         ];
@@ -85,6 +86,7 @@ class ItemsController extends Controller
                     'product_name' => $input["product_name"],
                     'arrival_source' => $input["arrival_source"],
                     'manufacturer' => $input["manufacturer"],
+                    'price' => $input["price"],
                     'created_at' => now(),
                     'updated_at' => now(),
                 ]
@@ -125,6 +127,7 @@ class ItemsController extends Controller
             "product_name" => "required|string",
             "arrival_source" => "nullable|string",
             "manufacturer" => "nullable|string",
+            "price" => "required|integer",
         ];
 
         $request->validate($validator);
@@ -150,6 +153,7 @@ class ItemsController extends Controller
         $item->product_name = $input["product_name"];
         $item->arrival_source = $input["arrival_source"];
         $item->manufacturer = $input["manufacturer"];
+        $item->price = $input["price"];
         $item->updated_at = now();
         $item->save();
 
