@@ -72,7 +72,7 @@
           $('#male-hobby').removeClass("d-none");
           $('input:radio[name="gender"]').val("男性");
       });
-    }
+    });
   </script>
 
 
