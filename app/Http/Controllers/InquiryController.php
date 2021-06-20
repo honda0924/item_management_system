@@ -11,7 +11,7 @@ use App\Mail\InquiryMail;
 class InquiryController extends Controller
 {
     private $inquiryElements = ["inquirer_name", "email", "tel", "gender", "hobby", "skill", "inquiry_text"];
-    //
+
     public function index()
     {
         return view('inquiry/index');
@@ -56,14 +56,10 @@ class InquiryController extends Controller
         if (!$input) {
             return redirect('inquiry');
         }
-        // register operation
-        // Log::debug('input:' . print_r($input));
         Mail::to($input["email"])->cc(config('mail.from.address'))->send(new InquiryMail($input));
         if ($input["gender"] == '男性') {
-            # code...
             $gender = 0;
         } elseif ($input["gender"] == '女性') {
-            # code...
             $gender = 1;
         }
 
