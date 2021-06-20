@@ -8,7 +8,8 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
 
 use App\Models\Shipping;
-
+use Illuminate\Support\Facades\Log;
+use PhpParser\Node\Stmt\TryCatch;
 
 class ShippingsController extends Controller
 {
@@ -64,11 +65,19 @@ class ShippingsController extends Controller
 
         // register operation
         $shipping = Shipping::find($input["id"]);
+        try {
+            DB::beginTransaction();
+            $shipping->name = $input["name"];
+            $shipping->address = $input["address"];
+            $shipping->tel = $input["tel"];
+            $shipping->save();
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::info($e);
+            exit;
+        }
 
-        $shipping->name = $input["name"];
-        $shipping->address = $input["address"];
-        $shipping->tel = $input["tel"];
-        $shipping->save();
 
 
 
@@ -95,7 +104,7 @@ class ShippingsController extends Controller
         $request->validate($validator);
 
         try {
-            //code...
+            DB::transaction();
             DB::table('shippings')->insert(
                 [
                     'name' => $input["name"],
@@ -104,9 +113,11 @@ class ShippingsController extends Controller
                     'created_at' => now(),
                 ]
             );
+            DB::commit();
             $resMsg = now() . 'に' . $input['name'] . 'を出荷先に追加しました';
             return Response($resMsg, Response::HTTP_OK);
         } catch (\Exception $e) {
+            DB::rollBack();
             return Response($e, Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
