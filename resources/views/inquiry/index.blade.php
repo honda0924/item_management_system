@@ -13,7 +13,7 @@
 
   @endif
   <div class="w-50">
-    <form method="post" action="{{ url('/inquiry/post') }}">
+    <form method="post" action="{{ url('/inquiry/confirm') }}">
       @csrf
       <div class="form-group">
         <label for="inquirer_name">お名前(必須)</label>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\InquiryRequest;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
@@ -16,33 +17,17 @@ class InquiryController extends Controller
     {
         return view('inquiry/index');
     }
-    public function post(Request $request)
+
+    public function confirm(InquiryRequest $request)
     {
         $input = $request->only($this->inquiryElements);
-        $validator = [
-            "inquirer_name" => "required|string",
-            "email" => "required|string|email:strict,dns",
-            "tel" => "required|regex:/^[0-9\-]+$/i",
-            "gender" => "required|string",
-            "hobby" => "nullable|string",
-            "skill" => "nullable|string",
-            "inquiry_text" => "required|string",
-        ];
-
-        $request->validate($validator);
         $request->session()->put("inquiry_input", $input);
 
-        return redirect('inquiry/confirm');
-    }
-    public function confirm(Request $request)
-    {
-        $input = $request->session()->get("inquiry_input");
-
         if (!$input) {
-            return redirect('inquiry');
+            return view('inquiry/confirm');
         }
 
-        return view('inquiry/confirm', ["input" => $input]);
+        return view('inquiry/confirm', compact('input'));
     }
     public function send(Request $request)
     {
