@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 
 class ChangePasswordController extends Controller
@@ -37,10 +39,18 @@ class ChangePasswordController extends Controller
             return redirect('/password/change')
                 ->with('warning', 'パスワードが違います');
         }
-        $this->validator($request->all())->validate();
-        $user->password = bcrypt($request->new_password);
-        $user->save();
 
+        DB::beginTransaction();
+        try {
+            $this->validator($request->all())->validate();
+            $user->password = bcrypt($request->new_password);
+            $user->save();
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollback();
+            Log::info($e);
+            exit;
+        }
         return redirect('home')
             ->with('status', 'パスワードを変更しました');
     }

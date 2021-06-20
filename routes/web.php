@@ -67,7 +67,8 @@ Route::post('/shipping/add', [App\Http\Controllers\ShippingsController::class, '
 
 
 Route::get('/inquiry', [App\Http\Controllers\InquiryController::class, 'index'])->name('inquiry');
-Route::post('/inquiry/post', [App\Http\Controllers\InquiryController::class, 'post'])->name("inquiry.post");
-Route::get('/inquiry/confirm', [App\Http\Controllers\InquiryController::class, 'confirm'])->name('inquiry.confirm');
+Route::post('/inquiry/confirm', [App\Http\Controllers\InquiryController::class, 'confirm'])->name('inquiry.confirm');
 Route::post('/inquiry/send', [App\Http\Controllers\InquiryController::class, 'send'])->name('inquiry.send');
 Route::get('/inquiry/complete', [App\Http\Controllers\InquiryController::class, 'complete'])->name('inquiry.complete');
+Route::get('/inquiry/csv', [App\Http\Controllers\InquiryController::class, 'csv'])->name('inquiry.csv');
+Route::post('/inquiry/download', [App\Http\Controllers\InquiryController::class, 'download'])->name('inquiry.download');

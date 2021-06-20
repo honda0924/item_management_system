@@ -11,7 +11,6 @@
   <div id="err_info"></div>
   <div>
     <div class="d-flex w-50">
-      
       <input class="form-control" type="text" id="item_search_input"  placeholder="フリーワードで検索">
       <button class="btn btn-primary" id="item_search_btn">検索</button>
     </div>
@@ -80,9 +79,9 @@
               <button type="button" class="item_delete_btn mr-3" data-toggle="modal" data-target="#modal_delete" data-name="{{$item->product_name}}" data-url="item/delete/{{$item->id}}">削除</button>
               <button type="button" class="mr-3" onclick="location.href='item/edit/{{$item->id}}'">編集</button>
               @if ($item->is_favorite==0)
-                <button type="button" class="mr-3" onclick="location.href='/favorite/add/{{$item->id}}'">お気に入り追加</button>  
+                <button type="button" class="mr-3" onclick="location.href='{{route('favorite.add', ['id' => $item->id])}}'">お気に入り追加</button>  
               @else
-                <button type="button" class="mr-3" onclick="location.href='/favorite/delete/{{$item->id}}'">お気に入り削除</button>
+                <button type="button" class="mr-3" onclick="location.href=''{{route('favorite.delete', ['id' => $item->id])}}'">お気に入り削除</button>
               @endif
               <input type="number" class="mr-3 item_num" name="item_num" min="0">
               <button type="button" data-id="{{$item->id}}" class="add_cart">カートに追加</button>
@@ -162,7 +161,7 @@
         target_num.val("");
       }).fail(function(data){
         $("#err_info").text(data);
-      })
+      });
       
     });
   }

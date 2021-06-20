@@ -44,24 +44,27 @@
         </div>
       </div>
     </div>
-    <script>
-      window.onload = function(){
-        $("#modal_delete").on('shown.bs.modal', function(event){
-          const button = $(event.relatedTarget);
-          const shipping_name = button.data('name');
-          const url = button.data('url');
-          $('#shipping_candidate_name').text(shipping_name);
-          $('#shipping_delete_execute').on('click', function(){
-            location.href = url;
-          });
-        });
-      }
 
-
-    </script>
     <div>
       {{ $shippings->links() }}
     </div>
   </div>
 
 @endsection
+<script>
+  window.onload = function(){
+    $("#modal_delete").on('shown.bs.modal', function(event){
+      headerMenu();
+
+      const button = $(event.relatedTarget);
+      const shipping_name = button.data('name');
+      const url = button.data('url');
+      $('#shipping_candidate_name').text(shipping_name);
+      $('#shipping_delete_execute').on('click', function(){
+        location.href = url;
+      });
+    });
+  }
+
+
+</script>

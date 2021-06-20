@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Log;
+use App\Http\Requests\ItemRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Item;
@@ -28,26 +30,16 @@ class ItemsController extends Controller
             ->orderBy($sort_key[0], $sort_key[1])
             ->paginate(5);
 
-        return view('items/index', ['items' => $items]);
+        return view('items/index', compact('items'));
     }
 
     public function create()
     {
         return view('items/create');
     }
-    public function post(Request $request)
+    public function post(ItemRequest $request)
     {
         $input = $request->only($this->itemElements);
-        $validator = [
-            "product_name" => "required|string",
-            "arrival_source" => "nullable|string",
-            "manufacturer" => "nullable|string",
-            "price" => "required|integer",
-            "email" => "required|string|email:strict,dns",
-            "tel" => "required|regex:/^[0-9\-]+$/i",
-        ];
-
-        $request->validate($validator);
         $request->session()->put("form_input", $input);
 
         return redirect('item/confirm');
@@ -60,7 +52,7 @@ class ItemsController extends Controller
             return redirect('item/create');
         }
 
-        return view('items/confirm', ["input" => $input]);
+        return view('items/confirm', compact("input"));
     }
     public function send(Request $request)
     {
@@ -77,13 +69,14 @@ class ItemsController extends Controller
         // register operation
 
         $reg_info = now() . 'に' . $input['email'] . 'が商品追加を実施';
-        DB::transaction(function () use ($input, $reg_info) {
+        DB::beginTransaction(); //トランザクションの開始
+        try {
+            //DBの一連の処理はtryの中に全て書く
             DB::table('items')->insert(
                 [
                     'product_name' => $input["product_name"],
                     'arrival_source' => $input["arrival_source"],
                     'manufacturer' => $input["manufacturer"],
-                    'price' => $input["price"],
                     'created_at' => now(),
                     'updated_at' => now(),
                 ]
@@ -95,7 +88,13 @@ class ItemsController extends Controller
                     'information' => $reg_info,
                 ]
             );
-        });
+            DB::commit(); //問題なく全ての処理が完了すればDBに反映
+        } catch (\Exception $e) {
+            DB::rollBack(); //エラーが発生した場合はDBのロールバックを行う
+            Log::info($e); //リリース後のことを考えてログにエラーは吐き出しておくのが吉
+            exit;
+        }
+
 
 
 

@@ -50,6 +50,7 @@
                                 <i class="fas fa-window-close menu__close"></i>
                                 <p><a href="/mypage">マイページ</a></p>
                                 <p><a href="/inquiry">お問い合わせ</a></p>
+                                <p><a href="/inquiry/csv">お問い合わせCSV出力</a></p>
                             </div>
                          </li>
                     </ul>

@@ -35,3 +35,8 @@
 
 
 @endsection
+<script>
+  window.onload = function(){
+    headerMenu();
+  }
+</script>
