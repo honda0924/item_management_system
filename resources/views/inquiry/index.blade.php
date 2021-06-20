@@ -30,8 +30,8 @@
       <div class="form-group">
         <label>性別</label>
         <div class="d-flex">
-          <input type="radio" name="gender" id="male" value="{{ old('gender') }}" checked>男性
-          <input type="radio" name="gender" id="female" value="{{ old('gender') }}" >女性
+          <input type="radio" name="gender" id="male" value="男性" @if(old('gender') == '男性' || empty(old('gender'))) checked @endif>男性
+          <input type="radio" name="gender" id="female" value="女性" @if(old('gender') == '女性') checked @endif >女性
         </div>
         <div class="form-group" id="male-hobby">
           <label for="hobby">趣味</label>
@@ -56,7 +56,7 @@
 
 @endsection
 <script>
-  window.onload = function(){
+  $(document).ready(function () {
     headerMenu();
 
     if ($('input:radio[name="gender"]').val()==="女性") {
@@ -68,6 +68,8 @@
       $('#female-skill').addClass("d-none");
       $('#male-hobby').removeClass("d-none");
     }
+
+      
     $('#female').click(function(){
         $('#female-skill').removeClass("d-none");
         $('#male-hobby').addClass("d-none");
@@ -78,5 +80,8 @@
         $('#male-hobby').removeClass("d-none");
         $('input:radio[name="gender"]').val("男性");
     });
-  }
-</script>
+  });
+  </script>
+
+
+
