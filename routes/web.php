@@ -52,6 +52,19 @@ Route::get('/cart/show/{id}', [App\Http\Controllers\CartController::class, 'show
 Route::get('/cart/delete/{id}', [App\Http\Controllers\CartController::class, 'delete'])->name("cart.delete");
 Route::get('/cart/purchase', [App\Http\Controllers\CartController::class, 'purchase'])->name("cart.purchase");
 
+Route::get('/shippings', [App\Http\Controllers\ShippingsController::class, 'index'])->name('shippings');
+Route::get('/shipping/delete/{id}', [App\Http\Controllers\ShippingsController::class, 'delete'])->name("shipping.delete");
+Route::get('/shipping/edit/{id}', [App\Http\Controllers\ShippingsController::class, 'edit'])->name("shipping.edit");
+Route::post('/shipping/edit_post', [App\Http\Controllers\ShippingsController::class, 'edit_post'])->name("shipping.edit_post");
+Route::get('/shipping/edit_confirm', [App\Http\Controllers\ShippingsController::class, 'edit_confirm'])->name("shipping.edit_confirm");
+Route::post('/shipping/update', [App\Http\Controllers\ShippingsController::class, 'update'])->name("shipping.update");
+Route::get('/shipping/edit_complete', [App\Http\Controllers\ShippingsController::class, 'edit_complete'])->name("shipping.edit_complete");
+Route::get('/shipping/create', [App\Http\Controllers\ShippingsController::class, 'create'])->name("shipping.create");
+Route::post('/shipping/add', [App\Http\Controllers\ShippingsController::class, 'add'])->name("shipping.add");
+
+
+
+
 
 Route::get('/inquiry', [App\Http\Controllers\InquiryController::class, 'index'])->name('inquiry');
 Route::post('/inquiry/post', [App\Http\Controllers\InquiryController::class, 'post'])->name("inquiry.post");

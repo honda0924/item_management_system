@@ -31,7 +31,7 @@
             <td class="product_name">{{$item->product_name}}</td>
             <td class="arrival_source">{{$item->arrival_source}}</td>
             <td class="manufacturer">{{$item->manufacturer}}</td>
-            <td class="manufacturer">{{$item->price}}</td>
+            <td class="price">{{$item->price}}</td>
             {{-- <td class="created_at">{{$item->created_at}}</td> --}}
             {{-- <td class="updated_at">{{$item->updated_at}}</td> --}}
             <td class="is_favorite">{{$item->is_favorite==1 ? '○' : '×'}}</td>
@@ -103,7 +103,7 @@
 
     </script>
     <div>
-      {{-- {{ $items->links() }} --}}
+      {{ $items->links() }}
     </div>
   </div>
 
